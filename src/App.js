@@ -31,10 +31,10 @@ function App() {
           justifyContent={'space-around'}
           spacing={1}
         >
-          <Grid xs={6}>
+          <Grid xs={12} sm={12} lg={4}>
             {/*<AddedSprints/>*/}
           </Grid>
-          {sprintForm && <Grid xs={6}>
+          {sprintForm && <Grid xs={12} sm={10} lg={6}>
             <SprintBuild/>
           </Grid>}
         </Grid>
