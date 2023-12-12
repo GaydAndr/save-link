@@ -4,10 +4,7 @@ import {Button, IconButton} from "@mui/material";
 const ActionBtn = ({variant, color, text, icoBtn, fullWidth, funcs, disabled, type='button' }) => {
   const handleButtonClick = () => {
     if (Array.isArray(funcs)) {
-      Promise.all(funcs?.map(func => func())).then(results => {
-        // results містить результати викликів функцій
-        // console.log('All functions completed:', results);
-      }).catch(error => {
+      Promise.all(funcs?.map(func => func())).catch(error => {
         // Обробка помилок, якщо є
         console.error('An error occurred:', error);
       });

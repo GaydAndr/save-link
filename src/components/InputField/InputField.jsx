@@ -1,17 +1,21 @@
-import React, {useEffect, useState} from 'react';
 import {Button, InputBase, Stack} from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 
 const InputField = ({
-                      placeholder,name, value, clear, disabled = false, func
+                      placeholder,
+                      name,
+                      value,
+                      clear,
+                      disabled = false,
+                      func,
+                      refValue = null
                     }) => {
-
   return (
     <Stack
       direction={'row'}
       p={'0 10px'}
       sx={{
-        backgroundColor: '#fff',
+        // backgroundColor: '#fff',
         height: 1,
         borderRadius: '5px'
 
@@ -20,6 +24,7 @@ const InputField = ({
     >
       <InputBase
         required
+        inputRef={refValue}
         fullWidth
         name={name}
         placeholder={placeholder}
@@ -27,9 +32,18 @@ const InputField = ({
         value={value}
         onChange={(e) => func(e)}
       />
-      {clear && <Button sx={{padding: 0, minWidth: '0'}} onClick={() => func(e.target.value='')}>
-        <CloseIcon/>
-      </Button>}
+      {
+        clear &&
+        <Button
+          sx={{
+            padding: 0,
+            minWidth: '0'
+          }}
+          onClick={()=>{func('')}}
+        >
+          <CloseIcon/>
+        </Button>
+      }
     </Stack>
   );
 };
