@@ -19,9 +19,9 @@ const persistUiConfig = {
   whitelist: ['titleInput', 'sprintForm']
 }
 const persistSprintConfig = {
-  key: 'ui',
+  key: 'sprint',
   storage,
-  whitelist: ['titleInput', 'sprintForm']
+  whitelist: ['sprintTitleText', 'sprintLinks']
 }
 
 const UiReducer = persistReducer(persistUiConfig, uiSlice.reducer);
