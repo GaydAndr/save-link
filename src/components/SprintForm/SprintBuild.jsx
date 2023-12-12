@@ -1,32 +1,38 @@
-import React, {createContext, useContext, useEffect, useState} from "react";
-import SprintTitle from "../SprintTitle/SprintTitle";
-import AddLink from "../AddLink/AddLink";
+import React, {createContext, useEffect, useState} from "react";
+import SprintTitle from "./SprintTitle";
+import AddLink from "./AddLink";
 import ActionBtn from "../ActionBtn/ActionBtn";
 import SprintLink from "../SprintLink/SprintLink";
 import {Paper, Stack} from "@mui/material";
-import {SprintTitleContext} from "../../App";
 import {v4 as uuidv4} from 'uuid';
+// import {saveData} from "../../service/saveDada";
+import {useDispatch, useSelector} from "react-redux";
+import {getSprintLinks, getSprintTitleText, sprintAction} from "../../redux/sprint_slice";
 
 export const SprintContext = createContext();
 
 const sprintObject = {
+  'id': '',
   'sprintTitle': '',
   'sprintLinks': []
 }
 const SprintBuild = () => {
-  const {sprintTitleText, handleSprintTitle, handleExpanded, handleVisible } = useContext(SprintTitleContext);
+  const dispatch = useDispatch();
+  const sprintTitle = useSelector(getSprintTitleText)
+  const sprintLinks = useSelector(getSprintLinks)
 
-  sprintObject.sprintTitle = sprintTitleText
-  const sprintLinks = sprintObject.sprintLinks
+  // sprintObject.sprintTitle = sprintTitleText
+  sprintObject.id = uuidv4()
+  // const sprintLinks = sprintObject.sprintLinks
 
   const [linkType, setLinkType] = useState('');
   const [linkTitle, setLinkTitle] = useState('')
   const [linkBody, setLinkBody] = useState('')
   const [deleteItem, setDeleteItem] = useState('')
 
-  const handleChange=(e)=>{
- console.log(e.target)
-    switch (e.target.name){
+
+  const handleChange = (e) => {
+    switch (e.target.name) {
       case 'linkTitle':
         setLinkTitle(e.target.value);
         break
@@ -36,19 +42,11 @@ const SprintBuild = () => {
       case 'linkType':
         setLinkType(e.target.value);
         break
+      default:
+        return;
     }
 
   }
-
-  const handleChangeLinkTitle = (value) => {
-    setLinkTitle(value);
-  };
-  const handleChangeLinkBody = (value) => {
-    setLinkBody(value);
-  };
-  const handleChangeLinkType = (event) => {
-    setLinkType(event.target.value);
-  };
 
   const handelDelete = (id) => {
     setDeleteItem(id)
@@ -59,19 +57,20 @@ const SprintBuild = () => {
     const sprintItem = {
       'id': uuidv4(),
       'title': linkTitle,
-      'body': linkBody,
+      'href': linkBody,
       'type': linkType
     }
-    sprintObject.sprintLinks.push(sprintItem)
+    dispatch(sprintAction.addLink(sprintItem))
     setLinkType('')
     setLinkBody('');
     setLinkTitle('');
   }
-
   const createSprint = () => {
-    console.log(sprintObject)
-    handleSprintTitle('')
-    handleVisible()
+    // localStorage.setItem("sprintList", JSON.stringify(sprintObject));
+    // saveData(sprintObject).then((res) => {
+    // })
+    // handleSprintTitle('')
+    // handleVisible()
     sprintObject.sprintTitle = ''
     sprintObject.sprintLinks = []
   }
@@ -90,13 +89,13 @@ const SprintBuild = () => {
   return (
     <SprintContext.Provider value={value}>
       <Paper
-        elevation={10}
+        elevation={5}
         sx={{
           padding: 1,
           backgroundColor: '#9C9C9C'
         }}
       >
-        <Stack spacing={1}>
+        <Stack spacing={2}>
           <SprintTitle/>
           <AddLink/>
           {sprintLinks[0] &&
@@ -107,6 +106,7 @@ const SprintBuild = () => {
                 handelDelete={handelDelete}
                 type={item.type}
                 title={item.title}
+                href={item.href}
               />
             })
 

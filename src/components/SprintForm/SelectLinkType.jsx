@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
-import {SprintContext} from "../SprintBuild/SprintBuild";
+import {SprintContext} from "./SprintBuild";
 
 const SelectLinkType = () => {
   const {linkType, handleChange} = useContext(SprintContext);
