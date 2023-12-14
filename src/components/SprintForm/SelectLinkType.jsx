@@ -1,9 +1,6 @@
-import React, {useContext} from 'react';
 import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
-import {SprintContext} from "./SprintBuild";
 
-const SelectLinkType = () => {
-  const {linkType, handleChange} = useContext(SprintContext);
+const SelectLinkType = ({linkType, handleChange}) => {
 
   return (
     <FormControl fullWidth variant="filled">
