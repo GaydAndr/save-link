@@ -21,7 +21,7 @@ const persistUiConfig = {
 const persistSprintConfig = {
   key: 'sprint',
   storage,
-  whitelist: ['sprintTitleText', 'sprintLinks']
+  whitelist: ['sprintTitleText', 'sprintLinks','listOfSprints']
 }
 
 const UiReducer = persistReducer(persistUiConfig, uiSlice.reducer);
