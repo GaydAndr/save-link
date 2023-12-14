@@ -25,10 +25,6 @@ export const AddSprint = () => {
     dispatch(uiAction.toggleTitleInput())
   }
   const handleSprintTitle = (e) => {
-    if (!e) {
-      setTitleText('')
-      return
-    }
     setTitleText(e.target.value)
   }
   const openSprintBuilder = () => {

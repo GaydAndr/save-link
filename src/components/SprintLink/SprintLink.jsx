@@ -5,14 +5,14 @@ import {useDispatch} from "react-redux";
 import {sprintAction} from "../../redux/sprint_slice";
 import InputPaper from "../SprintForm/InputPaper";
 
-const SprintLink = ({title, type, href, handelDelete, id}) => {
+const SprintLink = ({title, type, href, id}) => {
   const dispatch=useDispatch()
   const deleteLink = () => {
     dispatch(sprintAction.removeLink(id))
   }
 
   return (
-    <InputPaper hover>
+    <InputPaper>
       <Stack
         direction={'row'}
         alignItems={'center'}

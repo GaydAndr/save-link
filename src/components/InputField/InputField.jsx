@@ -5,7 +5,7 @@ const InputField = ({
                       placeholder,
                       name,
                       value,
-                      clear,
+                      clear =true,
                       disabled = false,
                       func,
                       refValue = null
@@ -39,7 +39,15 @@ const InputField = ({
             padding: 0,
             minWidth: '0'
           }}
-          onClick={()=>{func('')}}
+          onClick={() => {
+            const event = {
+              target: {
+                name: name,
+                value: ''
+              }
+            };
+            func(event);
+          }}
         >
           <CloseIcon/>
         </Button>
