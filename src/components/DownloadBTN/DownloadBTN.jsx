@@ -1,201 +1,136 @@
-import React from 'react';
-import {
-  AlignmentType,
-  convertInchesToTwip, Document,
-  ExternalHyperlink,
-  HeadingLevel,
-  LevelFormat, Packer,
-  Paragraph,
-  TextRun
-} from "docx";
-import {saveAs} from "file-saver";
-import ActionBtn from "../ActionBtn/ActionBtn";
+import * as React from 'react';
+import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ClickAwayListener from '@mui/material/ClickAwayListener';
+import Grow from '@mui/material/Grow';
+import Paper from '@mui/material/Paper';
+import Popper from '@mui/material/Popper';
+import MenuItem from '@mui/material/MenuItem';
+import MenuList from '@mui/material/MenuList';
+import {createTheme, ThemeProvider, Tooltip} from "@mui/material";
+import JSONDownloadBTN from "./JSONDownloadBTN";
+import DocxDownloadBTN from "./DocxDownloadBTN";
 import {useSelector} from "react-redux";
 import {getListOfSprints} from "../../redux/sprint_slice";
 
-const DownloadBtn = () => {
+const options = [
+  {
+    id: "DOCX",
+    nameOp: 'Завантажити як DOCX файл',
+  },
+  {
+    id: 'JSON',
+    nameOp: 'Завантажити як JSON файл',
+  },
+];
+
+export default function DownloadBtn() {
   const listOfSprints = useSelector(getListOfSprints)
 
-  const docxNumberingConfig = {
-    config: [
-      {
-        reference: "my-numbering",
-        levels: [
-          {
-            level: 0,
-            format: LevelFormat.UPPER_ROMAN,
-            text: "%1",
-            alignment: AlignmentType.START,
-            style: {
-              paragraph: {
-                indent: {
-                  left: convertInchesToTwip(0.3),
-                  hanging: convertInchesToTwip(0.18),
-                },
-              },
-            },
-          },
-          {
-            level: 1,
-            format: LevelFormat.DECIMAL,
-            text: "%2)",
-            alignment: AlignmentType.START,
-            style: {
-              paragraph: {
-                size: 48,
-                indent: {
-                  left: convertInchesToTwip(0.7),
-                  hanging: convertInchesToTwip(0.18)
-                },
-              },
-            },
-          },
-        ],
-      },
-    ],
-  }
-  const docxListTitle = new Paragraph({
-    spacing: {
-      before: 100,
-    },
-    numbering: {
-      reference: "my-numbering",
-      level: 0,
-    },
-    heading: HeadingLevel.HEADING_1,
-    children: [
-      new TextRun({
-        text: "docxListTitle",
-        size: 36,
-        color: "000000"
-      }),
-    ],
-  })
-  const docxListLink = new Paragraph({
-    spacing: {
-      before: 50,
-    },
-    numbering: {
-      reference: "my-numbering",
-      level: 1,
-    },
-    children: [
-      new ExternalHyperlink({
-        children: [
-          new TextRun({
-            text: "docxListLink",
-            style: "Hyperlink",
-            size: 28,
-            color: "000000"
-          }),
-        ],
-        link: "https://www.youtube.com/watch?v=zxd5-aTi8i0&ab_channel=PhonkPalace",
-      }),
-    ]
-  })
-  const docxMainTitle = new Paragraph({
-    spacing: {
-      before: 150,
-    },
-    children: [
-      new TextRun({
-        text: "\t\tСписок Посилань",
-        bold: true,
-        allCaps: true,
-        size: 40,
-      }),
-    ],
-  })
+  const [open, setOpen] = React.useState(false);
+  const anchorRef = React.useRef(null);
+  const [selectedIndex, setSelectedIndex] = React.useState(1);
 
-  const generateWordDocument = () => {
-    const sections = [
-      new Paragraph({
-        children: [
-          new TextRun({
-            text: '\t\tСписок Посилань',
-            bold: true,
-            allCaps: true,
-            size: 40,
-          }),
-        ],
-      }),
-    ];
-    listOfSprints.forEach((sprint) => {
-      const sprintTitle = new Paragraph({
-        spacing: { before: 100 },
-        numbering: { reference: 'my-numbering', level: 0 },
-        heading: HeadingLevel.HEADING_1,
-        children: [
-          new TextRun({
-            text: sprint.sprintTitle,
-            size: 36,
-            color: '000000',
-          }),
-        ],
-      });
-      sections.push(sprintTitle);
-      sprint.sprintLinks.forEach((link) => {
-        const linkParagraph = new Paragraph({
-          spacing: { before: 50 },
-          numbering: { reference: 'my-numbering', level: 1 },
-          children: [
-            new ExternalHyperlink({
-              children: [
-                new TextRun({
-                  text: link.title,
-                  style: 'Hyperlink',
-                  size: 28,
-                  color: '000000',
-                }),
-              ],
-              link: link.href,
-            }),
-          ],
-        });
+  const handleClick = () => {
+    if (options[selectedIndex].id === "DOCX"){
+      DocxDownloadBTN(listOfSprints)
+    }
+    if (options[selectedIndex].id === "JSON"){
+      JSONDownloadBTN(listOfSprints)
+    }
+  };
 
-        sections.push(linkParagraph);
-      });
-    });
-    const doc = new Document({
-      numbering: docxNumberingConfig,
-      sections: [{ children: sections }],
-    });
-    // const doc = new Document({
-    //   numbering: docxNumberingConfig,
-    //   sections: [
-    //     {
-    //       children: [
-    //         docxMainTitle,
-    //         docxListTitle,
-    //         docxListLink,
-    //         docxListLink,
-    //         docxListLink,
-    //         docxListTitle,
-    //         docxListLink,
-    //         docxListLink,
-    //         docxListTitle,
-    //         docxListLink,
-    //
-    //       ],
-    //     },
-    //   ],
-    // });
+  const handleMenuItemClick = (event, index) => {
+    setSelectedIndex(index);
+    setOpen(false);
+  };
 
-    Packer.toBlob(doc).then(blob => {
-      saveAs(blob, "document.docx");
-    });
-  }
+  const handleToggle = () => {
+    setOpen((prevOpen) => !prevOpen);
+  };
+
+  const handleClose = (event) => {
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+      return;
+    }
+    setOpen(false);
+  };
 
   return (
-    <div>
-      <ActionBtn
-        variant={'outlined'}
-        color={"success"}
-        text={'Завантажити посилання'}
-        funcs={generateWordDocument}
-      />
-    </div>
+    <ThemeProvider
+      theme={createTheme({
+        components: {
+          MuiListItemButton: {
+            defaultProps: {
+              disableTouchRipple: true,
+            },
+          },
+        },
+        palette: {
+          mode: "dark",
+          primary: {main: "rgba(158,45,204,0.74)"},
+          background: {paper: "rgb(181,113,238)"},
+        },
+      })}
+    >
+      <ButtonGroup
+        variant="contained"
+        ref={anchorRef}
+        aria-label="split button"
+      >
+        <Button
+          onClick={handleClick}>{options[selectedIndex].nameOp}</Button>
+        <Button
+          size="small"
+          aria-controls={open ? 'split-button-menu' : undefined}
+          aria-expanded={open ? 'true' : undefined}
+          aria-label="select merge strategy"
+          aria-haspopup="menu"
+          onClick={handleToggle}
+        >
+          <Tooltip title="Формат завантаження" placement="top" disableInteractive>
+          <ArrowDropDownIcon/>
+          </Tooltip>
+        </Button>
+      </ButtonGroup>
+      <Popper
+        sx={{
+          zIndex: 1,
+        }}
+        open={open}
+        anchorEl={anchorRef.current}
+        role={undefined}
+        transition
+        disablePortal
+      >
+        {({TransitionProps, placement}) => (
+          <Grow
+            {...TransitionProps}
+            style={{
+              transformOrigin:
+                placement === 'bottom' ? 'center top' : 'center bottom',
+            }}
+          >
+            <Paper>
+              <ClickAwayListener onClickAway={handleClose}>
+                <MenuList id="split-button-menu" autoFocusItem>
+                  {options.map((option, index) => (
+                    <MenuItem
+                      key={option.nameOp}
+                      disabled={index === 2}
+                      selected={index === selectedIndex}
+                      onClick={(event) => handleMenuItemClick(event, index)}
+                    >
+                      {option.nameOp}
+                    </MenuItem>
+                  ))}
+                </MenuList>
+              </ClickAwayListener>
+            </Paper>
+          </Grow>
+        )}
+      </Popper>
+    </ThemeProvider>
   );
-};
-
-export default DownloadBtn;
+}
