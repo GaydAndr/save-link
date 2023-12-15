@@ -1,11 +1,11 @@
-import {Button, InputBase, Stack} from "@mui/material";
+import {Button, InputBase, Stack, Tooltip} from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 
 const InputField = ({
                       placeholder,
                       name,
                       value,
-                      clear =true,
+                      clear = true,
                       disabled = false,
                       func,
                       refValue = null
@@ -34,23 +34,26 @@ const InputField = ({
       />
       {
         clear &&
-        <Button
-          sx={{
-            padding: 0,
-            minWidth: '0'
-          }}
-          onClick={() => {
-            const event = {
-              target: {
-                name: name,
-                value: ''
-              }
-            };
-            func(event);
-          }}
-        >
-          <CloseIcon/>
-        </Button>
+        <Tooltip title="Видалити текст" placement="top" disableInteractive>
+          <Button
+            sx={{
+              padding: 0,
+              minWidth: '0'
+            }}
+            onClick={() => {
+              const event = {
+                target: {
+                  name: name,
+                  value: ''
+                }
+              };
+              func(event);
+            }}
+          >
+            <CloseIcon/>
+          </Button>
+        </Tooltip>
+
       }
     </Stack>
   );

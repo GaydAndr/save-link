@@ -4,7 +4,7 @@ import SprintBuild from "./components/SprintForm/SprintBuild";
 import Grid from "@mui/material/Unstable_Grid2";
 import Title from "./components/Title/Title";
 import AddedSprints from "./components/AddedSprints/AddedSprints";
-import {Container} from "@mui/material";
+import {Container, Slide, Zoom} from "@mui/material";
 import {useSelector} from "react-redux";
 import {getSprintForm} from "./redux/ui_slice";
 
@@ -29,12 +29,16 @@ function App() {
         <Grid
           container
           justifyContent={'space-around'}
-          spacing={1}
+          spacing={3}
         >
-          {sprintForm && <Grid xs={12} sm={10} lg={6}>
-            <SprintBuild/>
-          </Grid>}
-          <Grid xs={12} sm={12} lg={4}>
+          <Slide direction="down" in={sprintForm} mountOnEnter unmountOnExit>
+            <Grid xs={12} sm={10} lg={6}
+                  sx={sprintForm ? {height: "auto"} : {height: 0}}
+            >
+              <SprintBuild/>
+            </Grid>
+          </Slide>
+          <Grid xs={12} sm={10} lg={6}>
             <AddedSprints/>
           </Grid>
         </Grid>

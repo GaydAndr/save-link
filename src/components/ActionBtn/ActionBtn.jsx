@@ -1,7 +1,16 @@
 import React from 'react';
 import {Button, IconButton} from "@mui/material";
 
-const ActionBtn = ({variant, color, text, icoBtn, fullWidth, funcs, disabled, type='button' }) => {
+const ActionBtn = ({
+                     variant= 'contained' || 'outlined' || 'text',
+                     color="inherit" || "primary" || "secondary" || "success" || "error" || "info" || "warning",
+                     text,
+                     icoBtn,
+                     fullWidth,
+                     funcs,
+                     disabled,
+                     type = 'button'
+                   }) => {
   const handleButtonClick = () => {
     if (Array.isArray(funcs)) {
       Promise.all(funcs?.map(func => func())).catch(error => {

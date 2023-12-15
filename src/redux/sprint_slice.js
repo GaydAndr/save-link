@@ -17,14 +17,17 @@ const sprintSlice = createSlice({
     removeLink: (state, {payload}) => {
       state.sprintLinks = state.sprintLinks.filter(item => item.id !== payload)
     },
-    clearSprintList:(state)=>{
-      state.sprintLinks=[]
+    clearSprintList: (state) => {
+      state.sprintLinks = []
     },
-    addSprint:(state, {payload})=>{
+    addSprint: (state, {payload}) => {
       state.listOfSprints.push(payload)
     },
     removeSprint: (state, {payload}) => {
       state.listOfSprints = state.listOfSprints.filter(item => item.id !== payload)
+    },
+    clearListOfSprint: (state) => {
+      state.listOfSprints = []
     },
   }
 })

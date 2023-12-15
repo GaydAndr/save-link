@@ -2,19 +2,23 @@ import SprintTitle from "./SprintTitle";
 import AddLink from "./AddLink";
 import ActionBtn from "../ActionBtn/ActionBtn";
 import SprintLink from "../SprintLink/SprintLink";
-import {Paper, Stack} from "@mui/material";
+import {Paper, Stack, Zoom} from "@mui/material";
 import {v4 as uuidv4} from 'uuid';
 import {useDispatch, useSelector} from "react-redux";
 import {getSprintLinks, getSprintTitleText, sprintAction} from "../../redux/sprint_slice";
-import {uiAction} from "../../redux/ui_slice";
+import {getSprintForm, uiAction} from "../../redux/ui_slice";
 
 const SprintBuild = () => {
   const dispatch = useDispatch();
 
   const sprintTitle = useSelector(getSprintTitleText)
   const sprintLinks = useSelector(getSprintLinks)
+  const sprintForm = useSelector(getSprintForm)
 
   const createSprint = () => {
+    if(!sprintTitle){
+      return
+    }
     const sprintObject = {
       'id': uuidv4(),
       sprintTitle,
@@ -27,6 +31,7 @@ const SprintBuild = () => {
   }
 
   return (
+    <Zoom in={sprintForm}>
     <Paper
       elevation={5}
       sx={{
@@ -57,6 +62,7 @@ const SprintBuild = () => {
         />
       </Stack>
     </Paper>
+    </Zoom>
   );
 };
 

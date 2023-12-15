@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import InputField from "../InputField/InputField";
 import ActionBtn from "../ActionBtn/ActionBtn";
-import {Box, Paper, Stack} from "@mui/material";
+import {Box, IconButton, Paper, Stack, Tooltip} from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import DownloadDoneIcon from '@mui/icons-material/DownloadDone';
@@ -67,36 +67,44 @@ const SprintTitle = () => {
               func={handleSprintTitle}
             />
           </Box>
-          <Box>
-            {
-              disableTitleField &&
-              <ActionBtn
-                variant={'contained'}
-                color={'primary'}
-                icoBtn={<BorderColorIcon/>}
-                funcs={handleEditTitle}
-              />
-            }
-            {
-              !disableTitleField &&
-              <ActionBtn
-                variant={'contained'}
-                color={'success'}
-                icoBtn={<DownloadDoneIcon/>}
-                funcs={handleEditTitle}
-              />
-            }
-          </Box>
+          <Tooltip title="Редагувати заголовок" placement="top" disableInteractive>
+            <Box>
+              {
+                disableTitleField &&
+                  <ActionBtn
+                    variant={'contained'}
+                    color={'primary'}
+                    icoBtn={<BorderColorIcon/>}
+                    funcs={handleEditTitle}
+                  />
+              }
+              {
+                !disableTitleField &&
+                <ActionBtn
+                  variant={'contained'}
+                  color={'success'}
+                  icoBtn={<DownloadDoneIcon/>}
+                  funcs={handleEditTitle}
+                />
+              }
+            </Box>
+          </Tooltip>
         </Stack>
       </Paper>
-      <Paper>
-        <ActionBtn
-          variant={'contained'}
-          color={'error'}
-          icoBtn={<DeleteIcon/>}
-          funcs={closeSprintBuilder}
-        />
-      </Paper>
+      <Tooltip
+        title="Видалити спринт"
+        disableInteractive
+        placement="top"
+      >
+        <Paper>
+          <ActionBtn
+            variant={'contained'}
+            color={'error'}
+            icoBtn={<DeleteIcon/>}
+            funcs={closeSprintBuilder}
+          />
+        </Paper>
+      </Tooltip>
     </Stack>
   );
 };

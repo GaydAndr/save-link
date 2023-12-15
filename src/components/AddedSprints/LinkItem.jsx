@@ -10,7 +10,8 @@ const LinkItem = ({item}) => {
         sx={{
           py: 0,
           minHeight: 32,
-          color: 'rgba(255,255,255,.8)'
+          color: "rgba(32,5,42,0.8)",
+
         }}
       >
         <ListItemText
