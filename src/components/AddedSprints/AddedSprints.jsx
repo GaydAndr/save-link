@@ -1,88 +1,119 @@
-import React, {memo, useEffect, useRef, useState} from 'react';
-// import {getData} from "../../service/getData";
-import {InputBase, List, ListItem, ListItemButton, ListItemText} from "@mui/material";
-import InputField from "../InputField/InputField";
+import React, {memo} from 'react';
+import {
+  Accordion, AccordionDetails, AccordionSummary, Box,
+  createTheme,
+  List,
+  ListItem,
+  styled,
+  ThemeProvider
+} from "@mui/material";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import {useSelector} from "react-redux";
+import {getListOfSprints} from "../../redux/sprint_slice";
+import LinkItem from "./LinkItem";
+import LinkHeader from "./LinkHeader";
+import ActionBtn from "../ActionBtn/ActionBtn";
+import DownloadBtn from "../DownloadBTN/DownloadBTN";
 
+const FireNav = styled(List)({
+  "& .MuiListItemButton-root": {
+    paddingLeft: 24,
+    paddingRight: 24,
+  },
+  "& .MuiListItemIcon-root": {
+    minWidth: 0,
+    marginRight: 16,
+  },
+  "& .MuiSvgIcon-root": {
+    fontSize: 20,
+  },
+});
 
 const AddedSprints = () => {
-  const [dataList, setDataList] = useState([]);
+  const ListOfSprints = useSelector(getListOfSprints)
+  const [expanded, setExpanded] = React.useState(false);
 
-  // useEffect(() => {
-  //   getData().then((data) => {
-  //     const parsedData = data.map((el) => JSON.parse(el))
-  //     setDataList(parsedData);
-  //   })
-  // }, []);
-
-  const [text, setText] = useState("");
-  const [data, setData] = useState([]);
-
-  const downloadFile = () => {
-    const blob = new Blob([text, ...data], { type: "text/plain" });
-    const url = window.URL.createObjectURL(blob);
-    const anchor = document.createElement("a");
-    anchor.href = url;
-    anchor.download = "file.txt";
-    anchor.click();
+  const handleChange = (panel) => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false);
   };
-  const inputRef = useRef(null);
-  function handleClick() {
-    inputRef.current.focus();
-  }
+
 
   return (
-    <div>
-      <div>
-        <input
-          type="text"
-          placeholder="Введіть текст"
-          onChange={(e) => setText(e.target.value)}
-        />
-        <button onClick={() => setData([...data, Math.random().toString()])}>
-          Додати дані
-        </button>
-        <button onClick={downloadFile}>Завантажити</button>
-        <button onClick={handleClick}>
-          Focus the input
-        </button>
-        {/*<InputBase*/}
-        {/*  required*/}
-        {/*  inputRef={inputRef}*/}
-        {/*  fullWidth*/}
-        {/*  name={'name'}*/}
-        {/*  placeholder={'placeholder'}*/}
-        {/*/>*/}
-        <InputField
-          placeholder='Назва спринта'
-          flex={10}
-          value={text}
-          refValue={inputRef}
-        />
-      </div>
-      <List>
-        {dataList?.map((el) => {
-          return (
-            <ListItem key={el.id} disablePadding>
-              <ListItemText primary={el.sprintTitle}/>
-              {/*<List>*/}
-              {/*  {el.sprintLinks.map((item) => {*/}
-              {/*    console.log(item)*/}
-              {/*    return (*/}
-              {/*      <ListItem key={item.id} disablePadding>*/}
-              {/*        <ListItemButton component={'a'} href={`#${item.body}`}}>*/}
-              {/*          <ListItemText primary={item.title}/>*/}
-              {/*          <ListItemText primary={item.type}/>*/}
-              {/*        </ListItemButton>*/}
-              {/*      </ListItem>*/}
-              {/*    )*/}
-              {/*  })*/}
-              {/*  }*/}
-              {/*</List>*/}
-            </ListItem>
-          )
-        })}
-      </List>
-    </div>
+    <ThemeProvider
+      theme={createTheme({
+        components: {
+          MuiListItemButton: {
+            defaultProps: {
+              disableTouchRipple: true,
+            },
+          },
+        },
+        palette: {
+          mode: "dark",
+          primary: {main: "rgb(102, 157, 246)"},
+          background: {paper: "rgb(193,215,234)"},
+        },
+      })}
+    >
+      <DownloadBtn/>
+      <FireNav
+        disablePadding
+        sx={{
+          width: '100%',
+          overflow: 'auto',
+          // maxHeight: '80vh',
+          '& ul': {padding: 0},
+        }}
+      >
+        {ListOfSprints?.map((sprintObj, i) => (
+          <ListItem
+            key={sprintObj.id}
+            sx={{
+              padding: 0
+            }}
+          >
+            <Box sx={{
+              width: '100%',
+              position: 'relative',
+            }}>
+              <Accordion
+                expanded={expanded === `panel${i}`}
+                onChange={handleChange(`panel${i}`)}
+
+              >
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon/>}
+                  aria-controls="panel1bh-content"
+                  id="panel1bh-header"
+                >
+                  <LinkHeader title={sprintObj.sprintTitle}/>
+                </AccordionSummary>
+                <AccordionDetails sx={{
+                  padding: 0
+                }}>
+                  <List disablePadding>
+                    {sprintObj.sprintLinks.map((sprintLink) => (
+                      <ListItem
+                        disablePadding
+                        key={sprintLink.id}
+                        sx={{
+                          py: 0,
+                          color: "rgba(255,255,255,.8)",
+                          bgcolor: 'rgb(28,68,108)',
+                        }}
+                      >
+                        <LinkItem item={sprintLink}/>
+                      </ListItem>
+                    ))}
+                  </List>
+                </AccordionDetails>
+
+              </Accordion>
+            </Box>
+          </ListItem>
+        ))}
+      </FireNav>
+    </ThemeProvider>
   );
 };
 
