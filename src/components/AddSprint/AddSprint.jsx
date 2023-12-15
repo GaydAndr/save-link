@@ -32,6 +32,7 @@ export const AddSprint = () => {
     dispatch(uiAction.toggleSprintForm())
     dispatch(uiAction.toggleTitleInput())
     setTitleText('')
+    sprintTitleInputRef.current.focus();
   }
   return (
     <>
