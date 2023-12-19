@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import InputField from "../InputField/InputField";
 import SelectLinkType from "./SelectLinkType";
 import ActionBtn from "../ActionBtn/ActionBtn";
@@ -21,6 +21,9 @@ const AddLink = () => {
   useEffect(() => {
     linkInputRef.current.focus();
   }, []);
+  useEffect(() => {
+    extractDomain(linkBody)
+  }, [linkBody]);
 
   const handleChange = (e) => {
     switch (e.target.name) {
@@ -37,6 +40,19 @@ const AddLink = () => {
         return;
     }
   }
+
+  const extractDomain = (url) => {
+    const match = url.match(/https:\/\/(www\.)?(.*?)\//);
+    if (match) {
+      let domain = match[2];
+      console.log(domain)
+      domain = domain.charAt(0).toUpperCase() + domain.slice(1);
+      setLinkTitle(domain)
+    } else {
+      setLinkTitle('')
+    }
+  }
+
   const createSprintItem = () => {
     const sprintItem = {
       'id': uuidv4(),
