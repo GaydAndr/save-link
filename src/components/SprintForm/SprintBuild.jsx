@@ -2,21 +2,23 @@ import SprintTitle from "./SprintTitle";
 import AddLink from "./AddLink";
 import ActionBtn from "../ActionBtn/ActionBtn";
 import SprintLink from "../SprintLink/SprintLink";
-import {Paper, Stack, Zoom} from "@mui/material";
+import {Paper, Stack} from "@mui/material";
 import {v4 as uuidv4} from 'uuid';
 import {useDispatch, useSelector} from "react-redux";
 import {getSprintLinks, getSprintTitleText, sprintAction} from "../../redux/sprint_slice";
-import {getSprintForm, uiAction} from "../../redux/ui_slice";
+import {uiAction} from "../../redux/ui_slice";
+import MyModal from "../Modal/MyModal";
+import {useState} from "react";
 
 const SprintBuild = () => {
   const dispatch = useDispatch();
-
   const sprintTitle = useSelector(getSprintTitleText)
   const sprintLinks = useSelector(getSprintLinks)
-  const sprintForm = useSelector(getSprintForm)
+  const [typeAlert, setTypeAlert] = useState('')
 
   const createSprint = () => {
-    if(!sprintTitle){
+    if (!sprintTitle) {
+      openInfoModal()
       return
     }
     const sprintObject = {
@@ -25,13 +27,21 @@ const SprintBuild = () => {
       sprintLinks
     }
     dispatch(uiAction.toggleSprintForm())
+    dispatch(uiAction.openSprintLists())
     dispatch(sprintAction.addSprint(sprintObject))
     dispatch(sprintAction.clearSprintList())
     dispatch(sprintAction.setSprintTitle(''))
   }
+  const handleClose = () => {
+    dispatch(uiAction.closeModal())
+    setTypeAlert('')
+  };
+  const openInfoModal = () => {
+    setTypeAlert('infoAlert')
+    dispatch(uiAction.openModal())
+  };
 
   return (
-    <Zoom in={sprintForm}>
     <Paper
       elevation={5}
       sx={{
@@ -52,7 +62,6 @@ const SprintBuild = () => {
               href={item.href}
             />
           })
-
         }
         <ActionBtn
           variant={'contained'}
@@ -61,8 +70,10 @@ const SprintBuild = () => {
           funcs={createSprint}
         />
       </Stack>
+      {typeAlert &&
+        <MyModal typeAlert={typeAlert} agreeFunc={createSprint} handleClose={handleClose}/>
+      }
     </Paper>
-    </Zoom>
   );
 };
 
