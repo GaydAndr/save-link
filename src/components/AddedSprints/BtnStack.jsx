@@ -4,12 +4,14 @@ import DownloadBtn from "../DownloadBTN/DownloadBTN";
 import ActionBtn from "../ActionBtn/ActionBtn";
 import {useDispatch} from "react-redux";
 import {sprintAction} from "../../redux/sprint_slice";
+import {uiAction} from "../../redux/ui_slice";
 
 const BtnStack = () => {
   const dispatch = useDispatch();
 
-  const handlaDelete  = () => {
+  const handleDelete  = () => {
     dispatch(sprintAction.clearListOfSprint())
+    dispatch(uiAction.closeSprintLists())
   };
 
   return (
@@ -25,7 +27,7 @@ const BtnStack = () => {
         text={"Очистити список"}
         color={'error'}
         variant={'contained'}
-        funcs={handlaDelete}
+        funcs={handleDelete}
       />
     </Stack>
   );

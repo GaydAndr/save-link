@@ -12,13 +12,6 @@ const ActionBtn = ({
                      type = 'button'
                    }) => {
   const handleButtonClick = () => {
-    if (Array.isArray(funcs)) {
-      Promise.all(funcs?.map(func => func())).catch(error => {
-        // Обробка помилок, якщо є
-        console.error('An error occurred:', error);
-      });
-      return
-    }
     funcs()
   };
   return (

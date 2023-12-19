@@ -1,21 +1,19 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect} from 'react';
 import {
   Accordion, AccordionDetails, AccordionSummary, Box,
   createTheme,
   List,
   ListItem,
   styled,
-  ThemeProvider, Zoom
+  ThemeProvider
 } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {getListOfSprints} from "../../redux/sprint_slice";
 import LinkItem from "./LinkItem";
 import LinkHeader from "./LinkHeader";
-import ActionBtn from "../ActionBtn/ActionBtn";
-import DocxDownloadBTN from "../DownloadBTN/DocxDownloadBTN";
-import DownloadBtn from "../DownloadBTN/DownloadBTN";
 import BtnStack from "./BtnStack";
+import {uiAction} from "../../redux/ui_slice";
 
 const FireNav = styled(List)({
   "& .MuiListItemButton-root": {
@@ -32,13 +30,17 @@ const FireNav = styled(List)({
 });
 
 const AddedSprints = () => {
+  const dispatch = useDispatch();
   const ListOfSprints = useSelector(getListOfSprints)
   const [expanded, setExpanded] = React.useState(false);
-
+  useEffect(() => {
+    if (ListOfSprints.length ){
+      dispatch(uiAction.openSprintLists())
+    }
+  });
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
-
 
   return (
     <ThemeProvider
@@ -56,9 +58,7 @@ const AddedSprints = () => {
         },
       })}
     >
-      {/*<Zoom in={ListOfSprints}>*/}
-
-        {ListOfSprints.length > 0 && <BtnStack/>}
+         <BtnStack/>
         <FireNav
           disablePadding
           sx={{
@@ -115,7 +115,6 @@ const AddedSprints = () => {
             </ListItem>
           ))}
         </FireNav>
-      {/*</Zoom>*/}
     </ThemeProvider>
 
   );
