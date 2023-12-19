@@ -4,20 +4,23 @@ import SprintBuild from "./components/SprintForm/SprintBuild";
 import Grid from "@mui/material/Unstable_Grid2";
 import Title from "./components/Title/Title";
 import AddedSprints from "./components/AddedSprints/AddedSprints";
-import {Container, Slide, Zoom} from "@mui/material";
-import {useSelector} from "react-redux";
-import {getSprintForm} from "./redux/ui_slice";
+import {Container, Slide} from "@mui/material";
+import {useDispatch, useSelector} from "react-redux";
+import {getSprintForm, getSprintLists, uiAction} from "./redux/ui_slice";
+import {getListOfSprints} from "./redux/sprint_slice";
+import React, {useEffect} from "react";
 
 function App() {
+  const dispatch = useDispatch();
   const sprintForm = useSelector(getSprintForm)
+  const sprintList = useSelector(getSprintLists)
+  const ListOfSprints = useSelector(getListOfSprints)
 
-  // const handleSprintTitle = (e) => {
-  //   if (!e) {
-  //     setSprintTitle('')
-  //     return
-  //   }
-  //   setSprintTitle(e.target.value)
-  // }
+  useEffect(() => {
+    if (ListOfSprints.length && !sprintList){
+      dispatch(uiAction.openSprintLists())
+    }
+  });
 
   return (
     <>
@@ -31,16 +34,21 @@ function App() {
           justifyContent={'space-around'}
           spacing={3}
         >
-          <Slide direction="down" in={sprintForm} mountOnEnter unmountOnExit>
-            <Grid xs={12} sm={10} lg={6}
-                  sx={sprintForm ? {height: "auto"} : {height: 0}}
-            >
-              <SprintBuild/>
+            <Slide direction="right" in={sprintForm} mountOnEnter unmountOnExit>
+              <Grid
+                xs={12}
+                sm={10}
+                lg={6}
+                sx={sprintForm ? {height: "auto"} : {height: 0}}
+              >
+                <SprintBuild/>
+              </Grid>
+            </Slide>
+          <Slide direction="left" in={sprintList} mountOnEnter unmountOnExit>
+            <Grid xs={12} sm={10} lg={6}>
+              <AddedSprints/>
             </Grid>
           </Slide>
-          <Grid xs={12} sm={10} lg={6}>
-            <AddedSprints/>
-          </Grid>
         </Grid>
       </Container>
     </>
