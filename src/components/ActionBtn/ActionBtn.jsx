@@ -11,7 +11,8 @@ const ActionBtn = ({
                      disabled,
                      type = 'button'
                    }) => {
-  const handleButtonClick = () => {
+  const handleButtonClick = (e) => {
+    e.stopPropagation()
     funcs()
   };
   return (
@@ -28,7 +29,7 @@ const ActionBtn = ({
       </Button>}
       {icoBtn && <IconButton
         color={color}
-        aria-label="delete"
+        // aria-label="delete"
         onClick={handleButtonClick}
         disabled={disabled}
         type={type}
