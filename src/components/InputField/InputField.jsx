@@ -5,7 +5,6 @@ const InputField = ({
                       placeholder,
                       name,
                       value,
-                      clear = true,
                       disabled = false,
                       func,
                       refValue = null
@@ -33,7 +32,7 @@ const InputField = ({
         onChange={(e) => func(e)}
       />
       {
-        clear &&
+        value &&
         <Tooltip title="Видалити текст" placement="top" disableInteractive>
           <Button
             sx={{
