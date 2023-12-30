@@ -48,7 +48,7 @@ export const AddSprint = () => {
             <ActionBtn
               variant={'outlined'}
               color={"success"}
-              text={'Додати спринт'}
+              text={'Створити категорію'}
               funcs={handleTitleInput}
             />
           </Stack>
