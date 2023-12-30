@@ -13,6 +13,7 @@ import JSONDownloadBTN from "./JSONDownloadBTN";
 import DocxDownloadBTN from "./DocxDownloadBTN";
 import {useSelector} from "react-redux";
 import {getListOfSprints} from "../../redux/sprint_slice";
+import TXTDownloadBTN from "./TXTDownloadBTN";
 
 const options = [
   {
@@ -22,6 +23,10 @@ const options = [
   {
     id: 'JSON',
     nameOp: 'Завантажити як JSON файл',
+  },
+  {
+    id: 'TXT',
+    nameOp: 'Завантажити як TXT файл',
   },
 ];
 
@@ -33,11 +38,18 @@ export default function DownloadBtn() {
   const [selectedIndex, setSelectedIndex] = React.useState(1);
 
   const handleClick = () => {
-    if (options[selectedIndex].id === "DOCX"){
-      DocxDownloadBTN(listOfSprints)
-    }
-    if (options[selectedIndex].id === "JSON"){
-      JSONDownloadBTN(listOfSprints)
+    switch (options[selectedIndex].id) {
+      case "DOCX":
+        DocxDownloadBTN(listOfSprints)
+        break
+      case "JSON":
+        JSONDownloadBTN(listOfSprints)
+        break
+      case "TXT":
+        TXTDownloadBTN(listOfSprints)
+        break
+      default:
+        break
     }
   };
 
@@ -90,7 +102,7 @@ export default function DownloadBtn() {
           onClick={handleToggle}
         >
           <Tooltip title="Формат завантаження" placement="top" disableInteractive>
-          <ArrowDropDownIcon/>
+            <ArrowDropDownIcon/>
           </Tooltip>
         </Button>
       </ButtonGroup>
@@ -118,7 +130,7 @@ export default function DownloadBtn() {
                   {options.map((option, index) => (
                     <MenuItem
                       key={option.nameOp}
-                      disabled={index === 2}
+                      disabled={index === 3}
                       selected={index === selectedIndex}
                       onClick={(event) => handleMenuItemClick(event, index)}
                     >
