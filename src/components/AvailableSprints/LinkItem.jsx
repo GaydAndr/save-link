@@ -1,5 +1,5 @@
 import React from 'react';
-import {ListItem, ListItemButton, ListItemText} from "@mui/material";
+import {ListItemButton, ListItemText} from "@mui/material";
 
 const LinkItem = ({item}) => {
   return (
@@ -9,7 +9,7 @@ const LinkItem = ({item}) => {
         target={'_blank'}
         sx={{
           py: 0,
-          minHeight: 32,
+          minHeight: 50,
           color: "rgba(32,5,42,0.8)",
 
         }}

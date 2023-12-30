@@ -6,7 +6,7 @@ import {useDispatch} from "react-redux";
 import {sprintAction} from "../../redux/sprint_slice";
 import {uiAction} from "../../redux/ui_slice";
 
-const BtnStack = () => {
+const TopBtnStack = () => {
   const dispatch = useDispatch();
 
   const handleDelete  = () => {
@@ -33,4 +33,4 @@ const BtnStack = () => {
   );
 };
 
-export default BtnStack;
+export default TopBtnStack;
