@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import InputField from "../InputField/InputField";
 import ActionBtn from "../ActionBtn/ActionBtn";
-import {Box, IconButton, Paper, Stack, Tooltip} from "@mui/material";
+import {Box, Paper, Stack, Tooltip} from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import DownloadDoneIcon from '@mui/icons-material/DownloadDone';

@@ -66,7 +66,7 @@ const SprintBuild = () => {
         <ActionBtn
           variant={'contained'}
           color={"success"}
-          text={'Додати спритн'}
+          text={'Зберегти'}
           funcs={createSprint}
         />
       </Stack>
