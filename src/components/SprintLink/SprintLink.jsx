@@ -1,15 +1,22 @@
 import ActionBtn from "../ActionBtn/ActionBtn";
-import {Link, Paper, Stack, Typography} from "@mui/material";
+import {Link, Stack, Typography} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {useDispatch} from "react-redux";
 import {sprintAction} from "../../redux/sprint_slice";
 import InputPaper from "../SprintForm/InputPaper";
+import BorderColorIcon from "@mui/icons-material/BorderColor";
 
 const SprintLink = ({title, type, href, id}) => {
-  const dispatch=useDispatch()
+  const dispatch = useDispatch()
+
   const deleteLink = () => {
     dispatch(sprintAction.removeLink(id))
   }
+
+  const editLink = () => {
+    dispatch((sprintAction.setOneLink(id)))
+    dispatch(sprintAction.removeLink(id))
+  };
 
   return (
     <InputPaper>
@@ -40,6 +47,12 @@ const SprintLink = ({title, type, href, id}) => {
         >
           {type}
         </Typography>
+        <ActionBtn
+          variant={'contained'}
+          color={'primary'}
+          icoBtn={<BorderColorIcon/>}
+          funcs={editLink}
+        />
         <ActionBtn
           variant={'contained'}
           color={'error'}
