@@ -15,7 +15,7 @@ const sprintSlice = createSlice({
       state.sprintTitleText = payload
     },
     addLink: (state, {payload}) => {
-      state.sprintLinks.push(payload)
+      state.sprintLinks = [payload, ...state.sprintLinks]
     },
     removeLink: (state, {payload}) => {
       state.sprintLinks = state.sprintLinks.filter(item => item.id !== payload)
