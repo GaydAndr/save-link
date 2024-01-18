@@ -46,13 +46,17 @@ const AddLink = () => {
   const extractDomain = (url) => {
     const match = url.match(/https?:\/\/(www\.)?(.*?)\//);
 
+    if(linkTitle){
+      return;
+    }
     if (match) {
       let domain = match[2];
       domain = domain.charAt(0).toUpperCase() + domain.slice(1);
       setLinkTitle(domain)
-    } else {
-      setLinkTitle(url)
+      return
     }
+      setLinkTitle(url)
+
   }
 
   const createSprintItem = () => {
