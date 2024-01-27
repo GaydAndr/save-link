@@ -24,6 +24,12 @@ const sprintSlice = createSlice({
       state.sprintLinks = []
     },
     addSprint: (state, {payload}) => {
+      console.log(payload.id)
+      const currentCategory= state.listOfSprints.find(item => item.id === payload.id)
+      console.log(currentCategory)
+      if(currentCategory){
+        // state.listOfSprints = []
+      }
       state.listOfSprints.push(payload)
     },
     removeSprint: (state, {payload}) => {
@@ -31,6 +37,7 @@ const sprintSlice = createSlice({
     },
     editSprint: (state, {payload}) => {
       const currentCategory= state.listOfSprints.find(item => item.id === payload)
+      // state.listOfSprints = state.listOfSprints.filter(item => item.id !== payload)
       state.sprintTitleText = currentCategory.sprintTitle
       state.sprintLinks = currentCategory.sprintLinks
       state.currentCategoryID = currentCategory.id

@@ -6,7 +6,8 @@ const uiSlice = createSlice({
     titleInput: false,
     sprintForm: false,
     sprintLists: false,
-    modalState: false
+    modalState: false,
+    cancelEditBtn: false,
   },
   reducers: {
     toggleTitleInput: (state) => {
@@ -26,6 +27,9 @@ const uiSlice = createSlice({
     },
     closeModal: (state) => {
       state.modalState = false
+    },
+    toggleCancelEditBtn: (state) => {
+      state.cancelEditBtn = !state.cancelEditBtn
     },
 
   }
