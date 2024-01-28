@@ -20,7 +20,7 @@ const RefactorBtn = ({id}) => {
   const editCategory = () => {
     console.log('edit')
     dispatch(sprintAction.editSprint(id))
-    dispatch(uiAction.toggleSprintForm())
+    dispatch(uiAction.openSprintForm())
   };
 
   return (

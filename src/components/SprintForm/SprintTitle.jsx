@@ -38,7 +38,7 @@ const SprintTitle = () => {
   }
 
   const closeSprintBuilder = () => {
-    dispatch(uiAction.toggleSprintForm())
+    dispatch(uiAction.closeSprintForm())
     dispatch(sprintAction.setSprintTitle(''))
     dispatch(sprintAction.clearSprintList())
   }

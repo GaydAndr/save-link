@@ -29,7 +29,7 @@ export const AddSprint = () => {
   }
   const openSprintBuilder = () => {
     dispatch(sprintAction.setSprintTitle(titleText))
-    dispatch(uiAction.toggleSprintForm())
+    dispatch(uiAction.openSprintForm())
     dispatch(uiAction.toggleTitleInput())
     setTitleText('')
     sprintTitleInputRef.current.focus();

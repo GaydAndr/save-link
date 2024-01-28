@@ -14,7 +14,7 @@ const SprintLink = ({title, type, href, id}) => {
   }
 
   const editLink = () => {
-    dispatch((sprintAction.setOneLink(id)))
+    dispatch((sprintAction.editLink(id)))
     dispatch(sprintAction.removeLink(id))
   };
 
