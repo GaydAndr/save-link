@@ -5,7 +5,7 @@ import SprintLink from "../SprintLink/SprintLink";
 import {Paper, Stack} from "@mui/material";
 import {v4 as uuidv4} from 'uuid';
 import {useDispatch, useSelector} from "react-redux";
-import {getSprintLinks, getSprintTitleText, sprintAction} from "../../redux/sprint_slice";
+import {getCurrentindex, getSprintLinks, getSprintTitleText, sprintAction} from "../../redux/sprint_slice";
 import {uiAction} from "../../redux/ui_slice";
 import MyModal from "../Modal/MyModal";
 import {useState} from "react";
@@ -14,6 +14,7 @@ const SprintBuild = () => {
   const dispatch = useDispatch();
   const sprintTitle = useSelector(getSprintTitleText)
   const sprintLinks = useSelector(getSprintLinks)
+  const editCategoryIndex = useSelector(getCurrentindex)
   const [typeAlert, setTypeAlert] = useState('')
 
   const createSprint = () => {
@@ -21,16 +22,18 @@ const SprintBuild = () => {
       openInfoModal()
       return
     }
+    if(editCategoryIndex !== null){
+      newSetNewLinks()
+      return;
+    }
     const sprintObject = {
       'id': uuidv4(),
       sprintTitle,
       sprintLinks
     }
-    dispatch(uiAction.toggleSprintForm())
     dispatch(uiAction.openSprintLists())
     dispatch(sprintAction.addSprint(sprintObject))
-    dispatch(sprintAction.clearSprintList())
-    dispatch(sprintAction.setSprintTitle(''))
+    closeFormActions()
   }
   const handleClose = () => {
     dispatch(uiAction.closeModal())
@@ -39,6 +42,21 @@ const SprintBuild = () => {
   const openInfoModal = () => {
     setTypeAlert('infoAlert')
     dispatch(uiAction.openModal())
+  };
+  
+  const cancelEdit = () => {
+    dispatch(sprintAction.cancelEdit())
+    closeFormActions()
+  };
+  const newSetNewLinks = () => {
+    dispatch(sprintAction.redactedList(sprintLinks))
+    closeFormActions()
+  };
+
+  const closeFormActions = () => {
+    dispatch(sprintAction.clearSprintList())
+    dispatch(sprintAction.setSprintTitle(''))
+    dispatch(uiAction.closeSprintForm())
   };
 
   return (
@@ -52,6 +70,26 @@ const SprintBuild = () => {
       <Stack spacing={2}>
         <SprintTitle/>
         <AddLink/>
+        <Stack
+          spacing={2}
+          direction={'row'}
+          justifyContent="space-between"
+        >
+          <ActionBtn
+            variant={'contained'}
+            color={"success"}
+            text={'Зберегти'}
+            funcs={createSprint}
+            fullWidth
+          />
+          {editCategoryIndex !== null && <ActionBtn
+            variant={'contained'}
+            color={"warning"}
+            text={'Відмінити'}
+            funcs={cancelEdit}
+            fullWidth
+          />}
+        </Stack>
         {sprintLinks[0] &&
           sprintLinks.map(item => {
             return <SprintLink
@@ -63,12 +101,7 @@ const SprintBuild = () => {
             />
           })
         }
-        <ActionBtn
-          variant={'contained'}
-          color={"success"}
-          text={'Зберегти'}
-          funcs={createSprint}
-        />
+
       </Stack>
       {typeAlert &&
         <MyModal typeAlert={typeAlert} agreeFunc={createSprint} handleClose={handleClose}/>
