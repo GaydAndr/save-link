@@ -7,8 +7,7 @@ const sprintSlice = createSlice({
     sprintLinks: [],
     listOfSprints: [],
     currentLink: null,
-    test:null,
-    currentCategoryID: null,
+    currentCategoryIndex : null,
   },
   reducers: {
     setSprintTitle: (state, {payload}) => {
@@ -24,33 +23,33 @@ const sprintSlice = createSlice({
       state.sprintLinks = []
     },
     addSprint: (state, {payload}) => {
-      console.log(payload.id)
-      const currentCategory= state.listOfSprints.find(item => item.id === payload.id)
-      console.log(currentCategory)
-      if(currentCategory){
-        // state.listOfSprints = []
-      }
       state.listOfSprints.push(payload)
     },
     removeSprint: (state, {payload}) => {
       state.listOfSprints = state.listOfSprints.filter(item => item.id !== payload)
     },
     editSprint: (state, {payload}) => {
-      const currentCategory= state.listOfSprints.find(item => item.id === payload)
-      // state.listOfSprints = state.listOfSprints.filter(item => item.id !== payload)
+      const currentCategory= state.listOfSprints.find((item,i) => item.id === payload)
       state.sprintTitleText = currentCategory.sprintTitle
       state.sprintLinks = currentCategory.sprintLinks
-      state.currentCategoryID = currentCategory.id
+      state.currentCategoryIndex  = state.listOfSprints.findIndex(item => item.id === payload);
     },
     clearListOfSprint: (state) => {
       state.listOfSprints = []
     },
-    setOneLink: (state, {payload}) => {
+    editLink: (state, {payload}) => {
       state.currentLink = state.sprintLinks.find(item => item.id === payload)
     },
     clearCurrentLink: (state) => {
       state.currentLink = null
     },
+    redactedList: (state, {payload})=>{
+      state.listOfSprints[state.currentCategoryIndex].sprintLinks = payload;
+      state.currentCategoryIndex = null
+    },
+    cancelEdit: (state, {payload})=>{
+      state.currentCategoryIndex = null
+    }
   }
 })
 
@@ -60,5 +59,6 @@ export const getSprintTitleText = (state) => state.sprint.sprintTitleText
 export const getSprintLinks = (state) => state.sprint.sprintLinks
 export const getListOfSprints = (state) => state.sprint.listOfSprints
 export const getCurrentLink = (state) => state.sprint.currentLink
+export const getCurrentindex = (state) => state.sprint.currentCategoryIndex
 
 export default sprintSlice
