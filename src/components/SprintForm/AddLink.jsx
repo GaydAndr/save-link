@@ -60,9 +60,11 @@ const AddLink = () => {
   }
 
   const createSprintItem = () => {
+    let emtTitle = 'Збережене посилання'
+
     const sprintItem = {
       'id': uuidv4(),
-      'title': linkTitle,
+      'title': linkTitle? linkTitle : emtTitle,
       'href': linkBody,
       'type': linkType
     }
