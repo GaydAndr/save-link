@@ -13,8 +13,11 @@ const uiSlice = createSlice({
     toggleTitleInput: (state) => {
       state.titleInput = !state.titleInput
     },
-    toggleSprintForm: (state) => {
-      state.sprintForm = !state.sprintForm
+    openSprintForm: (state) => {
+      state.sprintForm = true
+    },
+    closeSprintForm: (state) => {
+      state.sprintForm = false
     },
     closeSprintLists: (state) => {
       state.sprintLists = false
@@ -28,10 +31,6 @@ const uiSlice = createSlice({
     closeModal: (state) => {
       state.modalState = false
     },
-    toggleCancelEditBtn: (state) => {
-      state.cancelEditBtn = !state.cancelEditBtn
-    },
-
   }
 })
 
