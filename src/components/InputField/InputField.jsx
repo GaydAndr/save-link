@@ -7,6 +7,7 @@ const InputField = ({
                       value,
                       disabled = false,
                       func,
+                      blurFunc,
                       refValue = null
                     }) => {
   return (
@@ -30,6 +31,7 @@ const InputField = ({
         disabled={disabled}
         value={value}
         onChange={(e) => func(e)}
+        onBlur={blurFunc}
       />
       {
         value &&
