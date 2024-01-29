@@ -5,24 +5,35 @@ import SprintLink from "../SprintLink/SprintLink";
 import {Paper, Stack} from "@mui/material";
 import {v4 as uuidv4} from 'uuid';
 import {useDispatch, useSelector} from "react-redux";
-import {getCurrentindex, getSprintLinks, getSprintTitleText, sprintAction} from "../../redux/sprint_slice";
+import {
+  getCurrentindex,
+  getSprintLinks,
+  getSprintTitleText,
+  getTitleIsSave,
+  sprintAction
+} from "../../redux/sprint_slice";
 import {uiAction} from "../../redux/ui_slice";
 import MyModal from "../Modal/MyModal";
 import {useState} from "react";
+import CloseCategoryBuilder from "./CloseCategoryBuilder";
 
 const SprintBuild = () => {
   const dispatch = useDispatch();
   const sprintTitle = useSelector(getSprintTitleText)
   const sprintLinks = useSelector(getSprintLinks)
+  const titleIsSave = useSelector(getTitleIsSave)
   const editCategoryIndex = useSelector(getCurrentindex)
   const [typeAlert, setTypeAlert] = useState('')
 
   const createSprint = () => {
-    if (!sprintTitle) {
+    if(!titleIsSave){
+      dispatch(sprintAction.toggleTitleIsSave())
+    }
+   if (!sprintTitle) {
       openInfoModal()
       return
     }
-    if(editCategoryIndex !== null){
+    if (editCategoryIndex !== null) {
       newSetNewLinks()
       return;
     }
@@ -43,7 +54,7 @@ const SprintBuild = () => {
     setTypeAlert('infoAlert')
     dispatch(uiAction.openModal())
   };
-  
+
   const cancelEdit = () => {
     dispatch(sprintAction.cancelEdit())
     closeFormActions()
@@ -68,7 +79,16 @@ const SprintBuild = () => {
       }}
     >
       <Stack spacing={2}>
-        <SprintTitle/>
+        <Stack
+          direction={'row'}
+          justifyContent={'space-between'}
+          alignItems={'center'}
+          spacing={2}
+        >
+          <SprintTitle/>
+          <CloseCategoryBuilder/>
+        </Stack>
+
         <AddLink/>
         <Stack
           spacing={2}
