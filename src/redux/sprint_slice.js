@@ -3,13 +3,17 @@ import {createSlice} from "@reduxjs/toolkit";
 const sprintSlice = createSlice({
   name: 'sprint',
   initialState: {
+    titleIsSave: true,
     sprintTitleText: '',
     sprintLinks: [],
     listOfSprints: [],
     currentLink: null,
-    currentCategoryIndex : null,
+    currentCategoryIndex: null,
   },
   reducers: {
+    toggleTitleIsSave: (state, {payload}) => {
+      state.titleIsSave = !state.titleIsSave
+    },
     setSprintTitle: (state, {payload}) => {
       state.sprintTitleText = payload
     },
@@ -29,10 +33,10 @@ const sprintSlice = createSlice({
       state.listOfSprints = state.listOfSprints.filter(item => item.id !== payload)
     },
     editSprint: (state, {payload}) => {
-      const currentCategory= state.listOfSprints.find((item,i) => item.id === payload)
+      const currentCategory = state.listOfSprints.find((item, i) => item.id === payload)
       state.sprintTitleText = currentCategory.sprintTitle
       state.sprintLinks = currentCategory.sprintLinks
-      state.currentCategoryIndex  = state.listOfSprints.findIndex(item => item.id === payload);
+      state.currentCategoryIndex = state.listOfSprints.findIndex(item => item.id === payload);
     },
     clearListOfSprint: (state) => {
       state.listOfSprints = []
@@ -43,11 +47,11 @@ const sprintSlice = createSlice({
     clearCurrentLink: (state) => {
       state.currentLink = null
     },
-    redactedList: (state, {payload})=>{
+    redactedList: (state, {payload}) => {
       state.listOfSprints[state.currentCategoryIndex].sprintLinks = payload;
       state.currentCategoryIndex = null
     },
-    cancelEdit: (state, {payload})=>{
+    cancelEdit: (state, {payload}) => {
       state.currentCategoryIndex = null
     }
   }
@@ -55,6 +59,7 @@ const sprintSlice = createSlice({
 
 export const sprintAction = sprintSlice.actions
 
+export const getTitleIsSave = (state) => state.sprint.titleIsSave
 export const getSprintTitleText = (state) => state.sprint.sprintTitleText
 export const getSprintLinks = (state) => state.sprint.sprintLinks
 export const getListOfSprints = (state) => state.sprint.listOfSprints
