@@ -19,7 +19,7 @@ const MyModal = ({typeAlert, agreeFunc, handleClose}) => {
   };
 
   return (
-    <div>
+    <>
       <Dialog
         open={modalState}
         TransitionComponent={Transition}
@@ -30,7 +30,7 @@ const MyModal = ({typeAlert, agreeFunc, handleClose}) => {
         {typeAlert === 'infoAlert' && <InfoAlert handleClose={handleClose}/>}
         {typeAlert === 'askAlert' && <AskAlert handleClose={handleClose} handleAgree={handleAgree}/>}
       </Dialog>
-    </div>
+    </>
   );
 };
 
