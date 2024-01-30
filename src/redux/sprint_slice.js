@@ -49,7 +49,9 @@ const sprintSlice = createSlice({
     },
     redactedList: (state, {payload}) => {
       state.listOfSprints = state.listOfSprints.map(obj =>
-        obj.id === state.currentCategoryId ? {...obj, sprintLinks: payload} : obj
+        obj.id === state.currentCategoryId ? {
+        ...obj, sprintTitle: state.sprintTitleText, sprintLinks: payload}
+    : obj
       );
     },
     removeCurrentId: (state, {payload}) => {
