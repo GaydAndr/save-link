@@ -2,7 +2,7 @@ import SprintTitle from "./SprintTitle";
 import AddLink from "./AddLink";
 import ActionBtn from "../ActionBtn/ActionBtn";
 import SprintLink from "../SprintLink/SprintLink";
-import {Paper, Stack} from "@mui/material";
+import {Box, Paper, Stack, Tooltip} from "@mui/material";
 import {v4 as uuidv4} from 'uuid';
 import {useDispatch, useSelector} from "react-redux";
 import {
@@ -26,10 +26,10 @@ const SprintBuild = () => {
   const [typeAlert, setTypeAlert] = useState('')
 
   const createSprint = () => {
-    if(!titleIsSave){
+    if (!titleIsSave) {
       dispatch(sprintAction.toggleTitleIsSave())
     }
-   if (!sprintTitle) {
+    if (!sprintTitle) {
       openInfoModal()
       return
     }
@@ -56,11 +56,12 @@ const SprintBuild = () => {
   };
 
   const cancelEdit = () => {
-    dispatch(sprintAction.cancelEdit())
+    dispatch(sprintAction.removeCurrentId())
     closeFormActions()
   };
   const newSetNewLinks = () => {
     dispatch(sprintAction.redactedList(sprintLinks))
+    dispatch(sprintAction.removeCurrentId())
     closeFormActions()
   };
 
@@ -95,13 +96,22 @@ const SprintBuild = () => {
           direction={'row'}
           justifyContent="space-between"
         >
-          <ActionBtn
-            variant={'contained'}
-            color={"success"}
-            text={'Зберегти'}
-            funcs={createSprint}
-            fullWidth
-          />
+          <Tooltip
+            title={!sprintLinks[0]?'Додайте посилання':'Зберегти категорію'}
+            disableInteractive
+            placement="top"
+          >
+            <Box width={'100%'}>
+              <ActionBtn
+                variant={'contained'}
+                color={"success"}
+                text={'Зберегти'}
+                funcs={createSprint}
+                disabled={!sprintLinks[0]}
+                fullWidth
+              />
+            </Box>
+          </Tooltip>
           {editCategoryId && <ActionBtn
             variant={'contained'}
             color={"warning"}
