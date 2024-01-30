@@ -6,7 +6,7 @@ import {Paper, Stack} from "@mui/material";
 import {v4 as uuidv4} from 'uuid';
 import {useDispatch, useSelector} from "react-redux";
 import {
-  getCurrentindex,
+  getCurrentId,
   getSprintLinks,
   getSprintTitleText,
   getTitleIsSave,
@@ -22,7 +22,7 @@ const SprintBuild = () => {
   const sprintTitle = useSelector(getSprintTitleText)
   const sprintLinks = useSelector(getSprintLinks)
   const titleIsSave = useSelector(getTitleIsSave)
-  const editCategoryIndex = useSelector(getCurrentindex)
+  const editCategoryId = useSelector(getCurrentId)
   const [typeAlert, setTypeAlert] = useState('')
 
   const createSprint = () => {
@@ -33,7 +33,7 @@ const SprintBuild = () => {
       openInfoModal()
       return
     }
-    if (editCategoryIndex !== null) {
+    if (editCategoryId) {
       newSetNewLinks()
       return;
     }
@@ -102,7 +102,7 @@ const SprintBuild = () => {
             funcs={createSprint}
             fullWidth
           />
-          {editCategoryIndex !== null && <ActionBtn
+          {editCategoryId && <ActionBtn
             variant={'contained'}
             color={"warning"}
             text={'Відмінити'}
