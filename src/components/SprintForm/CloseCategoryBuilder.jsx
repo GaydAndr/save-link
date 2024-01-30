@@ -19,6 +19,7 @@ const CloseCategoryBuilder = () => {
     dispatch(sprintAction.clearSprintList())
     if(editCategoryId){
       dispatch((sprintAction.removeSprint(editCategoryId)))
+      dispatch((sprintAction.removeCurrentId()))
     }
   }
 
