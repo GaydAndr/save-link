@@ -22,6 +22,9 @@ const SprintTitle = () => {
       titleInputRef.current.focus();
     }
   }, [titleIsSave]);
+  useEffect(() => {
+    setTitleText(sprintTitleText)
+  }, [sprintTitleText]);
 
   const titleBlur = () => {
     dispatch(sprintAction.setSprintTitle(titleText))
