@@ -1,5 +1,5 @@
 import React from 'react';
-import {Box, Paper, Stack, Typography} from "@mui/material";
+import { Paper, Stack, Typography} from "@mui/material";
 import RefactorBtn from "./RefactorBtn";
 
 const LinkHeader = ({title, id, amount}) => {
