@@ -37,7 +37,7 @@ const AvailableSprints = () => {
   useEffect(() => {
     if (ListOfSprints.length) {
       dispatch(uiAction.openSprintLists())
-    }else {
+    } else {
       dispatch(uiAction.closeSprintLists())
     }
   });
@@ -91,7 +91,11 @@ const AvailableSprints = () => {
                   aria-controls="panel1bh-content"
                   id="panel1bh-header"
                 >
-                  <LinkHeader title={sprintObj.sprintTitle} id={sprintObj.id}/>
+                  <LinkHeader
+                    title={sprintObj.sprintTitle}
+                    id={sprintObj.id}
+                    amount={sprintObj.sprintLinks.length}
+                  />
                 </AccordionSummary>
                 <AccordionDetails sx={{
                   padding: 0
