@@ -8,7 +8,7 @@ const sprintSlice = createSlice({
     sprintLinks: [],
     listOfSprints: [],
     currentLink: null,
-    currentCategoryIndex: null,
+    currentCategoryId: null,
   },
   reducers: {
     toggleTitleIsSave: (state, {payload}) => {
@@ -36,7 +36,7 @@ const sprintSlice = createSlice({
       const currentCategory = state.listOfSprints.find((item, i) => item.id === payload)
       state.sprintTitleText = currentCategory.sprintTitle
       state.sprintLinks = currentCategory.sprintLinks
-      state.currentCategoryIndex = state.listOfSprints.findIndex(item => item.id === payload);
+      state.currentCategoryId = currentCategory.id
     },
     clearListOfSprint: (state) => {
       state.listOfSprints = []
@@ -48,11 +48,13 @@ const sprintSlice = createSlice({
       state.currentLink = null
     },
     redactedList: (state, {payload}) => {
-      state.listOfSprints[state.currentCategoryIndex].sprintLinks = payload;
-      state.currentCategoryIndex = null
+      state.listOfSprints = state.listOfSprints.map(obj =>
+        obj.id === state.currentCategoryId ? {...obj, sprintLinks: payload} : obj
+      );
+      state.currentCategoryId = null
     },
     cancelEdit: (state, {payload}) => {
-      state.currentCategoryIndex = null
+      state.currentCategoryId = null
     }
   }
 })
@@ -64,6 +66,7 @@ export const getSprintTitleText = (state) => state.sprint.sprintTitleText
 export const getSprintLinks = (state) => state.sprint.sprintLinks
 export const getListOfSprints = (state) => state.sprint.listOfSprints
 export const getCurrentLink = (state) => state.sprint.currentLink
-export const getCurrentindex = (state) => state.sprint.currentCategoryIndex
+export const getCurrentId = (state) => state.sprint.currentCategoryId
 
 export default sprintSlice
+
