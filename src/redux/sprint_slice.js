@@ -51,9 +51,8 @@ const sprintSlice = createSlice({
       state.listOfSprints = state.listOfSprints.map(obj =>
         obj.id === state.currentCategoryId ? {...obj, sprintLinks: payload} : obj
       );
-      state.currentCategoryId = null
     },
-    cancelEdit: (state, {payload}) => {
+    removeCurrentId: (state, {payload}) => {
       state.currentCategoryId = null
     }
   }
@@ -67,6 +66,5 @@ export const getSprintLinks = (state) => state.sprint.sprintLinks
 export const getListOfSprints = (state) => state.sprint.listOfSprints
 export const getCurrentLink = (state) => state.sprint.currentLink
 export const getCurrentId = (state) => state.sprint.currentCategoryId
-
 export default sprintSlice
 
