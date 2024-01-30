@@ -4,19 +4,24 @@ import ActionBtn from "../ActionBtn/ActionBtn";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MyModal from "../Modal/MyModal";
 import {uiAction} from "../../redux/ui_slice";
-import {sprintAction} from "../../redux/sprint_slice";
-import {useDispatch} from "react-redux";
+import {getCurrentId, sprintAction} from "../../redux/sprint_slice";
+import {useDispatch, useSelector} from "react-redux";
 
 
 const CloseCategoryBuilder = () => {
   const dispatch = useDispatch();
+  const editCategoryId = useSelector(getCurrentId)
   const [typeAlert, setTypeAlert] = useState('')
 
-  const closeSprintBuilder = () => {
+  const handleDelete = () => {
     dispatch(uiAction.closeSprintForm())
     dispatch(sprintAction.setSprintTitle(''))
     dispatch(sprintAction.clearSprintList())
+    if(editCategoryId){
+      dispatch((sprintAction.removeSprint(editCategoryId)))
+    }
   }
+
 
   const handleClose = () => {
     dispatch(uiAction.closeModal())
@@ -47,7 +52,7 @@ const CloseCategoryBuilder = () => {
         typeAlert &&
         <MyModal
           typeAlert={typeAlert}
-          agreeFunc={closeSprintBuilder}
+          agreeFunc={handleDelete}
           handleClose={handleClose}
         />
       }
