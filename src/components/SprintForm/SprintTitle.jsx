@@ -51,7 +51,7 @@ const SprintTitle = () => {
         setElvInputTitle(2)
       }}
     >
-      <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'}>
+      <Stack direction={"row"} justifyContent={'space-between'} alignItems={'center'}>
         <Box flex={1}>
           <InputField
             value={titleText}
@@ -62,7 +62,10 @@ const SprintTitle = () => {
             blurFunc={titleBlur}
           />
         </Box>
-        <Tooltip title="Редагувати заголовок" placement="top" disableInteractive>
+        <Tooltip
+          title="Редагувати заголовок"
+          placement="top"
+          disableInteractive>
           <Box>
             {
               titleIsSave &&
