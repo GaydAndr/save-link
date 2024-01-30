@@ -28,7 +28,6 @@ const RefactorBtn = ({id}) => {
       variant="contained"
       aria-label="outlined primary button group"
       sx={{backgroundColor: '#4f4f4f'}}
-          px={1}
     >
       <ActionBtn
         variant={'outlined'}
