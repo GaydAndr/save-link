@@ -14,7 +14,6 @@ const SprintTitle = () => {
   const [titleText, setTitleText] = useState(sprintTitleText)
   const [elvInputTitle, setElvInputTitle] = useState(3)
 
-
   const titleInputRef = useRef(null)
 
   useEffect(() => {
@@ -25,14 +24,12 @@ const SprintTitle = () => {
   useEffect(() => {
     setTitleText(sprintTitleText)
   }, [sprintTitleText]);
-
-  const titleBlur = () => {
+  useEffect(() => {
     dispatch(sprintAction.setSprintTitle(titleText))
-  };
+  }, [dispatch, titleText]);
 
   const handleEditTitle = () => {
     dispatch(sprintAction.toggleTitleIsSave())
-    dispatch(sprintAction.setSprintTitle(titleText))
     setElvInputTitle(3)
   }
 
@@ -59,7 +56,6 @@ const SprintTitle = () => {
             disabled={titleIsSave}
             refValue={titleInputRef}
             func={handleSprintTitle}
-            blurFunc={titleBlur}
           />
         </Box>
         <Tooltip

@@ -7,7 +7,6 @@ const InputField = ({
                       value,
                       disabled = false,
                       func,
-                      blurFunc,
                       refValue = null
                     }) => {
   return (
@@ -15,7 +14,6 @@ const InputField = ({
       direction={'row'}
       p={'0 10px'}
       sx={{
-        // backgroundColor: '#fff',
         height: 1,
         borderRadius: '5px'
 
@@ -31,7 +29,6 @@ const InputField = ({
         disabled={disabled}
         value={value}
         onChange={(e) => func(e)}
-        onBlur={blurFunc}
       />
       {
         value &&
