@@ -1,8 +1,8 @@
 import React from 'react';
-import {Stack, Typography} from "@mui/material";
+import {Box, Paper, Stack, Typography} from "@mui/material";
 import RefactorBtn from "./RefactorBtn";
 
-const LinkHeader = ({title ,id}) => {
+const LinkHeader = ({title, id, amount}) => {
 
   return (
     <Stack
@@ -16,7 +16,25 @@ const LinkHeader = ({title ,id}) => {
       <Typography>
         {title}
       </Typography>
-      <RefactorBtn id={id}/>
+      <Stack
+        spacing={4}
+        direction={'row'}
+        alignItems={'center'}
+      >
+        <Paper
+          elevation={3}
+          sx={{
+            backgroundColor: 'rgba(158,45,204,0.41)',
+            padding:'6px 10px'
+        }}
+        >
+          <Typography>
+            {amount}
+          </Typography>
+
+        </Paper>
+        <RefactorBtn id={id}/>
+      </Stack>
     </Stack>
   );
 };
