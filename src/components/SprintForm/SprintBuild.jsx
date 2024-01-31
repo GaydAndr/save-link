@@ -6,7 +6,7 @@ import {Box, Paper, Stack, Tooltip} from "@mui/material";
 import {v4 as uuidv4} from 'uuid';
 import {useDispatch, useSelector} from "react-redux";
 import {
-  getCurrentId,
+  getCurrentId, getCurrentLink,
   getSprintLinks,
   getSprintTitleText,
   getTitleIsSave,
@@ -14,7 +14,7 @@ import {
 } from "../../redux/sprint_slice";
 import {uiAction} from "../../redux/ui_slice";
 import MyModal from "../Modal/MyModal";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import CloseCategoryBuilder from "./CloseCategoryBuilder";
 
 const SprintBuild = () => {
@@ -23,6 +23,7 @@ const SprintBuild = () => {
   const sprintLinks = useSelector(getSprintLinks)
   const titleIsSave = useSelector(getTitleIsSave)
   const editCategoryId = useSelector(getCurrentId)
+  const currentLink = useSelector(getCurrentLink)
   const [typeAlert, setTypeAlert] = useState('')
 
   const createSprint = () => {
@@ -34,9 +35,16 @@ const SprintBuild = () => {
       return
     }
     if (editCategoryId) {
+      if(currentLink){
+        dispatch(sprintAction.addLink(currentLink))
+        console.log(sprintLinks.length)
+      }
       newSetNewLinks()
       return;
     }
+
+
+
     const sprintObject = {
       'id': uuidv4(),
       sprintTitle,
@@ -60,7 +68,9 @@ const SprintBuild = () => {
     closeFormActions()
   };
   const newSetNewLinks = () => {
-    dispatch(sprintAction.redactedList(sprintLinks))
+    dispatch(sprintAction.redactedList(currentLink?
+      [currentLink, ...sprintLinks] : sprintLinks
+    ))
     dispatch(sprintAction.removeCurrentId())
     closeFormActions()
   };
@@ -68,6 +78,7 @@ const SprintBuild = () => {
   const closeFormActions = () => {
     dispatch(sprintAction.clearSprintList())
     dispatch(sprintAction.setSprintTitle(''))
+    dispatch(sprintAction.removeCurrentLink())
     dispatch(uiAction.closeSprintForm())
   };
 

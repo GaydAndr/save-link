@@ -8,10 +8,12 @@ import InputPaper from "./InputPaper";
 import {v4 as uuidv4} from "uuid";
 import {getCurrentLink, sprintAction} from "../../redux/sprint_slice";
 import {useDispatch, useSelector} from "react-redux";
+import {getSprintForm} from "../../redux/ui_slice";
 
 const AddLink = () => {
   const dispatch = useDispatch();
   const currentLink = useSelector(getCurrentLink)
+  const sprintFormState = useSelector(getSprintForm)
 
   const [linkType, setLinkType] = useState('');
   const [linkTitle, setLinkTitle] = useState('')
@@ -25,7 +27,11 @@ const AddLink = () => {
   useEffect(() => {
     extractDomain(linkBody)
   }, [linkBody]);
-
+  useEffect(() => {
+    setLinkType('')
+    setLinkTitle('')
+    setLinkBody('')
+  }, [sprintFormState]);
 
   const handleChange = (e) => {
     switch (e.target.name) {
