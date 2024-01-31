@@ -21,6 +21,7 @@ const SelectLinkType = ({linkType, handleChange}) => {
         <MenuItem value={'PDF'}>PDF</MenuItem>
         <MenuItem value={'task'}>Task</MenuItem>
         <MenuItem value={'recording'}>Recording</MenuItem>
+        <MenuItem value={'link'}>Link</MenuItem>
       </Select>
 
     </FormControl>
