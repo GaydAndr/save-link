@@ -11,10 +11,10 @@ import {
   getSprintTitleText,
   getTitleIsSave,
   sprintAction
-} from "../../redux/sprint_slice";
+} from "../../redux/wordList_slice";
 import {uiAction} from "../../redux/ui_slice";
 import MyModal from "../Modal/MyModal";
-import {useEffect, useState} from "react";
+import { useState} from "react";
 import CloseCategoryBuilder from "./CloseCategoryBuilder";
 
 const SprintBuild = () => {
@@ -48,7 +48,7 @@ const SprintBuild = () => {
     const sprintObject = {
       'id': uuidv4(),
       sprintTitle,
-      sprintLinks
+      words: sprintLinks
     }
     dispatch(uiAction.openSprintLists())
     dispatch(sprintAction.addSprint(sprintObject))

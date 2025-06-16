@@ -5,7 +5,7 @@ import {Box, Paper, Stack, Tooltip} from "@mui/material";
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import DownloadDoneIcon from '@mui/icons-material/DownloadDone';
 import {useDispatch, useSelector} from "react-redux";
-import {getSprintTitleText, getTitleIsSave, sprintAction} from "../../redux/sprint_slice";
+import {getSprintTitleText, getTitleIsSave, sprintAction} from "../../redux/wordList_slice";
 
 const SprintTitle = () => {
   const dispatch = useDispatch();

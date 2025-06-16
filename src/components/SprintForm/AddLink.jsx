@@ -6,7 +6,7 @@ import {Paper} from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import InputPaper from "./InputPaper";
 import {v4 as uuidv4} from "uuid";
-import {getCurrentLink, sprintAction} from "../../redux/sprint_slice";
+import {getCurrentLink, sprintAction} from "../../redux/wordList_slice";
 import {useDispatch, useSelector} from "react-redux";
 import {getSprintForm} from "../../redux/ui_slice";
 

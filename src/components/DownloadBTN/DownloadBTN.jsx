@@ -12,7 +12,7 @@ import {createTheme, ThemeProvider, Tooltip} from "@mui/material";
 import JSONDownloadBTN from "./JSONDownloadBTN";
 import DocxDownloadBTN from "./DocxDownloadBTN";
 import {useSelector} from "react-redux";
-import {getListOfSprints} from "../../redux/sprint_slice";
+import {getListOfSprints} from "../../redux/wordList_slice";
 import TXTDownloadBTN from "./TXTDownloadBTN";
 
 const options = [

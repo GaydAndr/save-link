@@ -3,7 +3,7 @@ import {Stack} from "@mui/material";
 import DownloadBtn from "../DownloadBTN/DownloadBTN";
 import ActionBtn from "../ActionBtn/ActionBtn";
 import {useDispatch} from "react-redux";
-import {sprintAction} from "../../redux/sprint_slice";
+import {sprintAction} from "../../redux/wordList_slice";
 import {uiAction} from "../../redux/ui_slice";
 
 const TopBtnStack = () => {

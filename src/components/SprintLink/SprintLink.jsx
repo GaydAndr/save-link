@@ -2,7 +2,7 @@ import ActionBtn from "../ActionBtn/ActionBtn";
 import {Link, Stack, Typography} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {useDispatch} from "react-redux";
-import {sprintAction} from "../../redux/sprint_slice";
+import {sprintAction} from "../../redux/wordList_slice";
 import InputPaper from "../SprintForm/InputPaper";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 

@@ -4,7 +4,7 @@ import ActionBtn from "../ActionBtn/ActionBtn";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MyModal from "../Modal/MyModal";
 import {uiAction} from "../../redux/ui_slice";
-import {getCurrentId, sprintAction} from "../../redux/sprint_slice";
+import {getCurrentId, sprintAction} from "../../redux/wordList_slice";
 import {useDispatch, useSelector} from "react-redux";
 
 

@@ -1,10 +1,9 @@
 import React from 'react';
-import {Paper, Stack} from "@mui/material";
 import ActionBtn from "../ActionBtn/ActionBtn";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {useDispatch} from "react-redux";
-import {sprintAction} from "../../redux/sprint_slice";
+import {sprintAction} from "../../redux/wordList_slice";
 import {uiAction} from "../../redux/ui_slice";
 import ButtonGroup from "@mui/material/ButtonGroup";
 
