@@ -1,44 +1,65 @@
-import {createSlice} from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 const uiSlice = createSlice({
   name: 'ui',
   initialState: {
-    titleInput: false,
-    sprintForm: false,
-    sprintLists: false,
-    modalState: false,
-    cancelEditBtn: false,
+    isWordListFormVisible: false,
+    areWordListsVisible: false,
+    isModalVisible: false,
+
+    isListNameInputVisible: false,
+    isCancelEditBtnVisible: false,
+
+    activeEditingListId: null,
   },
   reducers: {
-    toggleTitleInput: (state) => {
-      state.titleInput = !state.titleInput
+    showWordListForm: (state) => {
+      state.isWordListFormVisible = true;
     },
-    openSprintForm: (state) => {
-      state.sprintForm = true
+    hideWordListForm: (state) => {
+      state.isWordListFormVisible = false;
     },
-    closeSprintForm: (state) => {
-      state.sprintForm = false
+
+    showWordLists: (state) => {
+      state.areWordListsVisible = true;
     },
-    closeSprintLists: (state) => {
-      state.sprintLists = false
+    hideWordLists: (state) => {
+      state.areWordListsVisible = false;
     },
-    openSprintLists: (state) => {
-      state.sprintLists = true
+
+    showModal: (state) => {
+      state.isModalVisible = true;
     },
-    openModal: (state) => {
-      state.modalState = true
+    hideModal: (state) => {
+      state.isModalVisible = false;
     },
-    closeModal: (state) => {
-      state.modalState = false
+
+    toggleListNameInput: (state) => {
+      state.isListNameInputVisible = !state.isListNameInputVisible;
     },
+    showCancelEditBtn: (state) => {
+      state.isCancelEditBtnVisible = true;
+    },
+    hideCancelEditBtn: (state) => {
+      state.isCancelEditBtnVisible = false;
+    },
+
+    startEditModeForList: (state, { payload }) => {
+      state.activeEditingListId = payload;
+    },
+    endEditMode: (state) => {
+      state.activeEditingListId = null;
+    }
   }
 })
 
-export const uiAction = uiSlice.actions
+export const uiAction = uiSlice.actions;
 
-export const getTitleInput = (state) => state.ui.titleInput
-export const getSprintForm = (state) => state.ui.sprintForm
-export const getSprintLists = (state) => state.ui.sprintLists
-export const getModalState = (state) => state.ui.modalState
+export const getIsWordListFormVisible = (state) => state.ui.isWordListFormVisible;
+export const getAreWordListsVisible = (state) => state.ui.areWordListsVisible;
+export const getIsModalVisible = (state) => state.ui.isModalVisible;
+export const getIsListNameInputVisible = (state) => state.ui.isListNameInputVisible;
+export const getIsCancelEditBtnVisible = (state) => state.ui.isCancelEditBtnVisible;
+export const getActiveEditingListId = (state) => state.ui.activeEditingListId;
 
-export default uiSlice
+export default uiSlice;

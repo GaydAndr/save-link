@@ -11,25 +11,25 @@ import {
 } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import uiSlice from "./ui_slice";
-import sprintSlice from "./sprint_slice";
+import wordListSlice from "./wordList_slice";
 
 const persistUiConfig = {
   key: 'ui',
   storage,
   whitelist: ['titleInput', 'sprintForm']
 }
-const persistSprintConfig = {
-  key: 'sprint',
+const persistWordListsConfig = {
+  key: 'wordLists',
   storage,
-  whitelist: ['sprintTitleText', 'sprintLinks','listOfSprints','currentCategoryId']
+  whitelist: ['wordLists']
 }
 
 const UiReducer = persistReducer(persistUiConfig, uiSlice.reducer);
-const SprintReducer = persistReducer(persistSprintConfig, sprintSlice.reducer);
+const WordListsReducer  = persistReducer(persistWordListsConfig, wordListSlice.reducer);
 const store = configureStore({
   reducer: {
     ui: UiReducer,
-    sprint: SprintReducer
+    wordLists: WordListsReducer
 
   },
   devTools: process.env.NODE_ENV === 'development',
