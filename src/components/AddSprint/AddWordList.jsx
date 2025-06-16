@@ -1,43 +1,43 @@
 import InputField from "../InputField/InputField";
 import ActionBtn from "../ActionBtn/ActionBtn";
-import {Accordion, AccordionDetails, AccordionSummary, Box, InputBase, Paper, Stack, styled} from "@mui/material";
+import {Accordion, AccordionDetails, AccordionSummary, Box, Paper, Stack} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
-import {getSprintForm, getTitleInput, uiAction} from "../../redux/ui_slice";
+import {getIsWordListFormVisible, getIsListNameInputVisible, uiAction} from "../../redux/ui_slice";
 import {useEffect, useRef, useState} from "react";
-import {sprintAction} from "../../redux/sprint_slice";
+import {wordListAction} from "../../redux/wordList_slice";
 
-export const AddSprint = () => {
+export const AddWordList = () => {
   const dispatch = useDispatch();
-  const titleInput = useSelector(getTitleInput)
-  const sprintForm = useSelector(getSprintForm)
+  const isInputVisible  = useSelector(getIsListNameInputVisible)
+  const isFormVisible  = useSelector(getIsWordListFormVisible)
 
   const [elvInputTitle, setElvInputTitle] = useState(3)
-  const [titleText, setTitleText] = useState('')
+  const [listName, setListName] = useState('')
 
-  const sprintTitleInputRef = useRef(null)
+  const listNameInputRef = useRef(null)
 
   useEffect(() => {
-    if (titleInput) {
-      sprintTitleInputRef.current.focus();
+    if (isInputVisible ) {
+      listNameInputRef.current.focus();
     }
-  }, [titleInput]);
-  const handleTitleInput = () => {
-    dispatch(uiAction.toggleTitleInput())
+  }, [isInputVisible ]);
+  const handleToggleInput  = () => {
+    dispatch(uiAction.toggleListNameInput())
   }
-  const handleSprintTitle = (e) => {
-    setTitleText(e.target.value)
+  const handleListNameChange  = (e) => {
+    setListName(e.target.value)
   }
-  const openSprintBuilder = () => {
-    dispatch(sprintAction.setSprintTitle(titleText))
-    dispatch(uiAction.openSprintForm())
-    dispatch(uiAction.toggleTitleInput())
-    setTitleText('')
-    sprintTitleInputRef.current.focus();
+  const openWordListBuilder  = () => {
+    dispatch(wordListAction.setCurrentListName(listName))
+    dispatch(uiAction.showWordListForm())
+    dispatch(uiAction.toggleListNameInput())
+    setListName('')
+    listNameInputRef.current.focus();
   }
   return (
     <>
-      <Accordion elevation={0} expanded={titleInput}>
-        <AccordionSummary disabled={sprintForm}>
+      <Accordion elevation={0} expanded={isInputVisible }>
+        <AccordionSummary disabled={isFormVisible }>
           <Stack
             sx={{
               width: '100%',
@@ -48,8 +48,8 @@ export const AddSprint = () => {
             <ActionBtn
               variant={'outlined'}
               color={"success"}
-              text={'Створити категорію'}
-              funcs={handleTitleInput}
+              text={'Створити список слів'}
+              funcs={handleToggleInput }
             />
           </Stack>
         </AccordionSummary>
@@ -76,16 +76,17 @@ export const AddSprint = () => {
                   placeholder='Назва спринта'
                   clear
                   flex={10}
-                  value={titleText}
-                  func={handleSprintTitle}
-                  refValue={sprintTitleInputRef}
+                  value={listName}
+                  func={handleListNameChange }
+                  refValue={listNameInputRef}
                 />
               </Box>
               <ActionBtn
                 variant={'contained'}
                 color={"success"}
                 text={'Додати'}
-                funcs={openSprintBuilder}
+                funcs={openWordListBuilder }
+                disabled={!listName}
               />
             </Stack>
           </Paper>

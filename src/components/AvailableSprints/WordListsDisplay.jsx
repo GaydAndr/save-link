@@ -9,11 +9,12 @@ import {
 } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {useDispatch, useSelector} from "react-redux";
-import {getListOfSprints} from "../../redux/sprint_slice";
-import LinkItem from "./LinkItem";
+import {getAllWordLists, wordListAction} from "../../redux/wordList_slice";
+import WordItem from "./WordItem";
 import LinkHeader from "./LinkHeader";
 import TopBtnStack from "./TopBtnStack";
 import {uiAction} from "../../redux/ui_slice";
+import ActionBtn from "../ActionBtn/ActionBtn";
 
 const FireNav = styled(List)({
   "& .MuiListItemButton-root": {
@@ -29,20 +30,31 @@ const FireNav = styled(List)({
   },
 });
 
-const AvailableSprints = () => {
+const addNewItem={
+  title:"Add New Item",
+  id: "00"
+}
+
+const WordListsDisplay = () => {
   const dispatch = useDispatch();
-  const ListOfSprints = useSelector(getListOfSprints)
+  const wordLists  = useSelector(getAllWordLists)
   const [expanded, setExpanded] = React.useState(false);
 
   useEffect(() => {
-    if (ListOfSprints.length) {
-      dispatch(uiAction.openSprintLists())
+    if (wordLists .length) {
+      dispatch(uiAction.showWordLists())
     } else {
-      dispatch(uiAction.closeSprintLists())
+      dispatch(uiAction.hideWordLists())
     }
-  });
+  },[wordLists , dispatch]);
+
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
+  };
+
+  const handleStartEditing  = (listId) => {
+    dispatch(wordListAction.startEditingList(listId))
+    dispatch(uiAction.showWordListForm())
   };
 
   return (
@@ -57,7 +69,7 @@ const AvailableSprints = () => {
         },
         palette: {
           mode: "dark",
-          background: {paper: "rgb(197,35,197)"},
+          background: {paper: "rgb(83,58,83)"},
         },
       })}
     >
@@ -67,13 +79,13 @@ const AvailableSprints = () => {
         sx={{
           width: '100%',
           overflow: 'auto',
-          // maxHeight: '80vh',
           '& ul': {padding: 0},
         }}
       >
-        {ListOfSprints?.map((sprintObj, i) => (
+        {wordLists ?.map((wordList, i) => (
+
           <ListItem
-            key={sprintObj.id}
+            key={wordList.id}
             sx={{
               padding: 0
             }}
@@ -92,26 +104,47 @@ const AvailableSprints = () => {
                   id="panel1bh-header"
                 >
                   <LinkHeader
-                    title={sprintObj.sprintTitle}
-                    id={sprintObj.id}
-                    amount={sprintObj.sprintLinks.length}
+                    title={wordList.listName}
+                    id={wordList.id}
+                    amount={wordList.words.length}
                   />
                 </AccordionSummary>
                 <AccordionDetails sx={{
                   padding: 0
                 }}>
-                  <List disablePadding>
-                    {sprintObj.sprintLinks.map((sprintLink) => (
-                      <ListItem
-                        disablePadding
-                        key={sprintLink.id}
-                        sx={{
-                          py: 0,
-                          bgcolor: 'rgba(215,215,215,0.8)',
-                        }}
-                      >
-                        <LinkItem item={sprintLink}/>
-                      </ListItem>
+                  <List
+                    disablePadding
+                    sx={{
+                      bgcolor: 'rgba(231,116,255,0.32)'
+                    }}
+                  >
+                    <ListItem
+                      disablePadding
+                      key={"00"}
+                      sx={{
+                        py: 0,
+                        bgcolor: 'rgb(255,255,255)',
+                      }}
+                    >
+                      <ActionBtn
+                        variant={'contained'}
+                        color={'warning'}
+                        text={'Додати слово'}
+                        fullWidth
+                        funcs={() => handleStartEditing (wordList.id)}
+                      />
+                    </ListItem>
+                    {wordList.words.map((word) => (
+                      // <ListItem
+                      //   disablePadding
+                      //   key={sprintLink.id}
+                      //   sx={{
+                      //     py: 0,
+                      //     bgcolor: 'rgba(215,215,215,0.8)',
+                      //   }}
+                      // >
+                        <WordItem item={word}/>
+                      // </ListItem>
                     ))}
                   </List>
                 </AccordionDetails>
@@ -126,4 +159,4 @@ const AvailableSprints = () => {
   );
 };
 
-export default memo(AvailableSprints);
+export default memo(WordListsDisplay);
