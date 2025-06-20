@@ -1,19 +1,17 @@
-import React, { useState } from 'react';
 import { ListItem, Typography, IconButton, Box, Checkbox } from "@mui/material";
 import GTranslateIcon from '@mui/icons-material/GTranslate';
 import {useDispatch} from "react-redux";
 import {wordListAction} from "../../redux/wordList_slice";
-// import DeleteIcon from '@mui/icons-material/Delete';
-// import EditIcon from '@mui/icons-material/Edit';
 
-
-const createTranslateUrl = (text, sl = 'en', tl = 'uk') => {
+const createTranslateUrl = (text, targetLang) => {
   const encodedText = encodeURIComponent(text);
-  return `https://translate.google.com/?sl=${sl}&tl=${tl}&text=${encodedText}&op=translate`;
+  return `https://translate.google.com/?sl=auto&tl=${targetLang}&text=${encodedText}&op=translate`;
 };
+const PRIMARY_LANGUAGE = 'en';
+const SECONDARY_LANGUAGE = 'uk';
 
 const WordItem = ({ word, listId }) => {
-  const useDispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const isLearned = word.isLearned;
   const originalWord = word.word;
@@ -60,7 +58,7 @@ const WordItem = ({ word, listId }) => {
         <Typography sx={{ fontWeight: 'medium', mr: 'auto' }}>
           {originalWord}
         </Typography>
-        <IconButton size="small" onClick={() => handleTranslateClick(createTranslateUrl(originalWord))}>
+        <IconButton size="small" onClick={() => handleTranslateClick(createTranslateUrl(word.word, SECONDARY_LANGUAGE))}>
           <GTranslateIcon fontSize="small" />
         </IconButton>
       </Box>
@@ -71,21 +69,9 @@ const WordItem = ({ word, listId }) => {
         <Typography sx={{ fontStyle: 'italic', mr: 'auto' }}>
           {translatedWord}
         </Typography>
-        <IconButton size="small" onClick={() => handleTranslateClick(createTranslateUrl(translatedWord, 'uk', 'en'))}>
+        <IconButton size="small" onClick={() => handleTranslateClick(createTranslateUrl(word.translation, PRIMARY_LANGUAGE))}>
           <GTranslateIcon fontSize="small" />
         </IconButton>
-
-        {/* Майбутній функціонал: показуємо кнопки тільки в режимі редагування */}
-        {/*{isEditing && (*/}
-        {/*  <>*/}
-        {/*    <IconButton size="small" color="primary">*/}
-        {/*      <EditIcon fontSize="small" />*/}
-        {/*    </IconButton>*/}
-        {/*    <IconButton size="small" color="error">*/}
-        {/*      <DeleteIcon fontSize="small" />*/}
-        {/*    </IconButton>*/}
-        {/*  </>*/}
-        {/*)}*/}
       </Box>
     </ListItem>
   );

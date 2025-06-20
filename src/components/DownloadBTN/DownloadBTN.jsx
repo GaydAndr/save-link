@@ -12,7 +12,7 @@ import {createTheme, ThemeProvider, Tooltip} from "@mui/material";
 import JSONDownloadBTN from "./JSONDownloadBTN";
 import DocxDownloadBTN from "./DocxDownloadBTN";
 import {useSelector} from "react-redux";
-import {getListOfSprints} from "../../redux/wordList_slice";
+import {getAllWordLists} from "../../redux/wordList_slice";
 import TXTDownloadBTN from "./TXTDownloadBTN";
 
 const options = [
@@ -31,7 +31,7 @@ const options = [
 ];
 
 export default function DownloadBtn() {
-  const listOfSprints = useSelector(getListOfSprints)
+  const wordLists  = useSelector(getAllWordLists)
 
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
@@ -40,13 +40,13 @@ export default function DownloadBtn() {
   const handleClick = () => {
     switch (options[selectedIndex].id) {
       case "DOCX":
-        DocxDownloadBTN(listOfSprints)
+        DocxDownloadBTN(wordLists )
         break
       case "JSON":
-        JSONDownloadBTN(listOfSprints)
+        JSONDownloadBTN(wordLists )
         break
       case "TXT":
-        TXTDownloadBTN(listOfSprints)
+        TXTDownloadBTN(wordLists )
         break
       default:
         break

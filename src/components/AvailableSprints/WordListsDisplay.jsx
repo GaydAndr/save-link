@@ -1,4 +1,4 @@
-import React, {memo, useEffect} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {
   Accordion, AccordionDetails, AccordionSummary, Box,
   createTheme,
@@ -13,8 +13,9 @@ import {getAllWordLists, wordListAction} from "../../redux/wordList_slice";
 import WordItem from "./WordItem";
 import LinkHeader from "./LinkHeader";
 import TopBtnStack from "./TopBtnStack";
-import {uiAction} from "../../redux/ui_slice";
+import {getModalType, uiAction} from "../../redux/ui_slice";
 import ActionBtn from "../ActionBtn/ActionBtn";
+import MyModal from "../Modal/MyModal";
 
 const FireNav = styled(List)({
   "& .MuiListItemButton-root": {
@@ -30,18 +31,14 @@ const FireNav = styled(List)({
   },
 });
 
-const addNewItem={
-  title:"Add New Item",
-  id: "00"
-}
-
 const WordListsDisplay = () => {
   const dispatch = useDispatch();
   const wordLists  = useSelector(getAllWordLists)
-  const [expanded, setExpanded] = React.useState(false);
+  const modalType = useSelector(getModalType);
+  const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
-    if (wordLists .length) {
+    if (wordLists.length) {
       dispatch(uiAction.showWordLists())
     } else {
       dispatch(uiAction.hideWordLists())
@@ -55,6 +52,16 @@ const WordListsDisplay = () => {
   const handleStartEditing  = (listId) => {
     dispatch(wordListAction.startEditingList(listId))
     dispatch(uiAction.showWordListForm())
+  };
+
+  const handleDeleteAll = () => {
+    dispatch(wordListAction.clearAllWordLists());
+    dispatch(uiAction.hideWordLists());
+    dispatch(uiAction.hideModal());
+  };
+
+  const handleCloseModal = () => {
+    dispatch(uiAction.hideModal());
   };
 
   return (
@@ -82,8 +89,7 @@ const WordListsDisplay = () => {
           '& ul': {padding: 0},
         }}
       >
-        {wordLists ?.map((wordList, i) => (
-
+        {wordLists?.map((wordList, i) => (
           <ListItem
             key={wordList.id}
             sx={{
@@ -134,17 +140,12 @@ const WordListsDisplay = () => {
                         funcs={() => handleStartEditing (wordList.id)}
                       />
                     </ListItem>
-                    {wordList.words.map((word) => (
-                      // <ListItem
-                      //   disablePadding
-                      //   key={sprintLink.id}
-                      //   sx={{
-                      //     py: 0,
-                      //     bgcolor: 'rgba(215,215,215,0.8)',
-                      //   }}
-                      // >
-                        <WordItem item={word}/>
-                      // </ListItem>
+                    {wordList.words.map((wordObject) => (
+                        <WordItem
+                          key={wordObject.id}
+                          word={wordObject}
+                          listId={wordList.id}
+                        />
                     ))}
                   </List>
                 </AccordionDetails>
@@ -154,6 +155,14 @@ const WordListsDisplay = () => {
           </ListItem>
         ))}
       </FireNav>
+      {modalType === 'confirmClearAll' && (
+        <MyModal
+          typeAlert={'askAlert'} // Використовуємо той же AskAlert, але з іншим текстом
+          text="Ви впевнені, що хочете видалити ВСІ списки? Цю дію неможливо буде скасувати."
+          agreeFunc={handleDeleteAll}
+          handleClose={handleCloseModal}
+        />
+      )}
     </ThemeProvider>
 
   );

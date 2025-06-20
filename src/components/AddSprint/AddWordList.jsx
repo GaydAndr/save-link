@@ -28,12 +28,22 @@ export const AddWordList = () => {
     setListName(e.target.value)
   }
   const openWordListBuilder  = () => {
+    if (!listName.trim()) {
+      return;
+    }
     dispatch(wordListAction.setCurrentListName(listName))
     dispatch(uiAction.showWordListForm())
     dispatch(uiAction.toggleListNameInput())
     setListName('')
-    listNameInputRef.current.focus();
+    // listNameInputRef.current.focus();
   }
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      openWordListBuilder();
+    }
+  };
   return (
     <>
       <Accordion elevation={0} expanded={isInputVisible }>
@@ -73,12 +83,14 @@ export const AddWordList = () => {
             >
               <Box flex={10}>
                 <InputField
-                  placeholder='Назва спринта'
-                  clear
-                  flex={10}
+                  placeholder='Назва списку'
+                  name="listName"
                   value={listName}
-                  func={handleListNameChange }
-                  refValue={listNameInputRef}
+                  onChange={handleListNameChange }
+                  inputRef={listNameInputRef}
+                  onKeyDown={handleKeyDown}
+                  flex={10}
+                  clear
                 />
               </Box>
               <ActionBtn

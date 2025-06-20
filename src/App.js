@@ -1,6 +1,6 @@
 import './App.css';
 import {AddWordList} from "./components/AddSprint/AddWordList";
-import SprintBuild from "./components/SprintForm/SprintBuild";
+import WordListBuilder from "./components/SprintForm/WordListBuilder";
 import Grid from "@mui/material/Unstable_Grid2";
 import Title from "./components/Title/Title";
 import AddedSprints from "./components/AvailableSprints/WordListsDisplay";
@@ -42,7 +42,7 @@ function App() {
                 lg={6}
                 sx={isFormVisible  ? {height: "auto"} : {height: 0}}
               >
-                <SprintBuild/>
+                <WordListBuilder/>
               </Grid>
             </Slide>
           <Slide direction="left" in={areListsVisible } mountOnEnter unmountOnExit>

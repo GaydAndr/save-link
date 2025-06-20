@@ -1,58 +1,61 @@
-import {Button, InputBase, Stack, Tooltip} from "@mui/material";
+import {Button, FormHelperText, InputBase, Stack, Tooltip} from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 
 const InputField = ({
-                      placeholder,
-                      name,
                       value,
-                      disabled = false,
-                      func,
-                      refValue = null
+                      onChange,
+                      inputRef,
+                      clear,
+                      error,
+                      helperText,
+                      ...rest
                     }) => {
+
+  const handleClear = () => {
+    const event = {
+      target: {
+        name: rest.name,
+        value: ''
+      }
+    };
+    onChange(event);
+  };
   return (
     <Stack
       direction={'row'}
       p={'0 10px'}
       sx={{
-        height: 1,
-        borderRadius: '5px'
-
+        height: 40,
+        borderRadius: '5px',
+        border: error ? '1px solid #d32f2f' : 'none',
       }}
       justifyContent={'space-between'}
+      alignItems={'center'}
     >
       <InputBase
         required
-        inputRef={refValue}
         fullWidth
-        name={name}
-        placeholder={placeholder}
-        disabled={disabled}
         value={value}
-        onChange={(e) => func(e)}
+        onChange={onChange}
+        inputRef={inputRef}
+        error={error}
+        {...rest}
       />
       {
-        value &&
+        clear && value && !rest.disabled &&
         <Tooltip title="Видалити текст" placement="top" disableInteractive>
           <Button
             sx={{
               padding: 0,
               minWidth: '0'
             }}
-            onClick={() => {
-              const event = {
-                target: {
-                  name: name,
-                  value: ''
-                }
-              };
-              func(event);
-            }}
+            onClick={handleClear}
           >
             <CloseIcon/>
           </Button>
         </Tooltip>
-
       }
+      {helperText && <FormHelperText error>{helperText}</FormHelperText>}
     </Stack>
   );
 };
