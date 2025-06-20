@@ -13,14 +13,14 @@ const wordListSlice = createSlice({
     editingWord: null,
   },
   reducers: {
-    // --- РЕДЬЮСЕРИ ДЛЯ КЕРУВАННЯ БУФЕРОМ РЕДАГУВАННЯ ---
-
     setIsListNameSaved: (state, { payload }) => {
       state.isListNameSaved = payload;
     },
+
     setCurrentListName: (state, { payload }) => {
       state.currentListName = payload;
     },
+
     addWord: (state, { payload }) => {
       const newWord = {
         id: new Date().toISOString(),
@@ -30,9 +30,18 @@ const wordListSlice = createSlice({
       };
       state.currentWords.push(newWord);
     },
+
+    updateWordInCurrentList: (state, { payload }) => {
+      const index = state.currentWords.findIndex(word => word.id === payload.id);
+      if (index !== -1) {
+        state.currentWords[index] = { ...state.currentWords[index], ...payload };
+      }
+    },
+
     removeWord: (state, { payload }) => {
       state.currentWords = state.currentWords.filter(item => item.id !== payload);
     },
+
     clearCurrentList: (state) => {
       state.currentListName = '';
       state.currentWords = [];
@@ -40,7 +49,13 @@ const wordListSlice = createSlice({
       state.editingWord = null;
     },
 
-    // --- РЕДЬЮСЕРИ ДЛЯ КЕРУВАННЯ ОСНОВНИМ МАСИВОМ СПИСКІВ ---
+    setEditingWord: (state, { payload }) => {
+      state.editingWord = state.currentWords.find(word => word.id === payload);
+    },
+
+    clearEditingWord: (state) => {
+      state.editingWord = null;
+    },
 
     addWordList: (state, { payload }) => {
       const newList = {
@@ -50,13 +65,15 @@ const wordListSlice = createSlice({
       };
       state.wordLists.push(newList);
     },
+
     removeWordList: (state, { payload }) => {
       state.wordLists = state.wordLists.filter(list => list.id !== payload);
     },
 
-    // --- РЕДЬЮСЕРИ ДЛЯ РЕДАГУВАННЯ ---
+    clearAllWordLists: (state) => {
+      state.wordLists = [];
+    },
 
-    // Завантажує список з wordLists в буфер для редагування
     startEditingList: (state, { payload }) => {
       const listToEdit = state.wordLists.find(list => list.id === payload);
       if (listToEdit) {
@@ -65,14 +82,13 @@ const wordListSlice = createSlice({
         state.editingListId = listToEdit.id;
       }
     },
-    // Зберігає зміни з буфера назад в основний масив
+
     saveEditedList: (state, { payload }) => {
       state.wordLists = state.wordLists.map(list =>
         list.id === state.editingListId
           ? { ...list, listName: state.currentListName, words: state.currentWords }
           : list
       );
-      // Очищуємо буфер після збереження
       state.currentListName = '';
       state.currentWords = [];
       state.editingListId = null;
@@ -99,5 +115,6 @@ export const getCurrentListName = (state) => state.wordLists.currentListName;
 export const getCurrentWords = (state) => state.wordLists.currentWords;
 export const getAllWordLists = (state) => state.wordLists.wordLists;
 export const getEditingListId = (state) => state.wordLists.editingListId;
+export const getEditingWord = (state) => state.wordLists.editingWord;
 
 export default wordListSlice;
