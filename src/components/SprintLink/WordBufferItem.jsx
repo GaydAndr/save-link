@@ -1,5 +1,5 @@
 import ActionBtn from "../ActionBtn/ActionBtn";
-import {Box, IconButton, Stack, Typography} from "@mui/material";
+import {Box, IconButton, Snackbar, Stack, Tooltip, Typography} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {useDispatch} from "react-redux";
 import {wordListAction} from "../../redux/wordList_slice";
@@ -7,15 +7,14 @@ import InputPaper from "../SprintForm/InputPaper";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import GTranslateIcon from "@mui/icons-material/GTranslate";
 
-/**
- * Створює URL для Google Translate з автоматичним визначенням мови джерела.
- * @param {string} text - Текст для перекладу.
- * @param {string} targetLang - Цільова мова (напр., 'en', 'uk', 'pl').
- * @returns {string} - Готовий URL.
- */
 const createTranslateUrl = (text, targetLang) => {
   const encodedText = encodeURIComponent(text);
   return `https://translate.google.com/?sl=auto&tl=${targetLang}&text=${encodedText}&op=translate`;
+};
+
+const isMobile = () => {
+  const mobileRegex = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+  return mobileRegex.test(navigator.userAgent);
 };
 
 const PRIMARY_LANGUAGE = 'en';
@@ -23,6 +22,9 @@ const SECONDARY_LANGUAGE = 'uk';
 
 const WordBufferItem = ({word}) => {
   const dispatch = useDispatch()
+
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
 
   const handleDelete  = () => {
     dispatch(wordListAction.removeWord(word.id))
@@ -32,8 +34,29 @@ const WordBufferItem = ({word}) => {
     dispatch((wordListAction.setEditingWord(word.id)))
   };
 
-  const handleTranslateClick = (url) => {
-    window.open(url, '_blank', 'noopener,noreferrer');
+  const handleTranslateClick = (text, targetLang) => {
+    if (isMobile()) {
+      const mobileUrl = `googletranslate://translate?sl=auto&tl=${targetLang}&text=${encodeURIComponent(text)}`;
+      const webUrl = createTranslateUrl(text, targetLang);
+
+      const fallbackTimeout = setTimeout(() => {
+        window.open(webUrl, '_blank', 'noopener,noreferrer');
+      }, 1200);
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden') {
+          clearTimeout(fallbackTimeout);
+        }
+      }, { once: true });
+
+      window.location.href = mobileUrl;
+    } else {
+      window.open(createTranslateUrl(text, targetLang), '_blank', 'noopener,noreferrer');
+    }
+  };
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
   };
 
   return (
@@ -52,18 +75,22 @@ const WordBufferItem = ({word}) => {
           <Typography variant={'h6'} flex={1} p={1}>
             {word.word}
           </Typography>
-          <IconButton size="small" onClick={() => handleTranslateClick(createTranslateUrl(word.word, SECONDARY_LANGUAGE))}>
-            <GTranslateIcon fontSize="small" />
-          </IconButton>
+          <Tooltip title="Перекласти">
+            <IconButton size="small" onClick={() => handleTranslateClick(word.word, SECONDARY_LANGUAGE)}>
+              <GTranslateIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
         </Box>
         <Box sx={{ height: '24px', borderRight: '1px solid rgba(0, 0, 0, 0.12)' }} />
         <Box sx={{ flex: 1, display: 'flex', alignItems: 'center', minWidth: 0, gap: 1 }}>
           <Typography sx={{ fontStyle: 'italic', mr: 'auto' }}>
             {word.translation}
           </Typography>
-          <IconButton size="small" onClick={() => handleTranslateClick(createTranslateUrl(word.translation, PRIMARY_LANGUAGE))}>
-            <GTranslateIcon fontSize="small" />
-          </IconButton>
+          <Tooltip title="Перекласти">
+            <IconButton size="small" onClick={() => handleTranslateClick(word.translation, PRIMARY_LANGUAGE)}>
+              <GTranslateIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
         </Box>
         <Box sx={{  pr: 2 }}>
           <ActionBtn
@@ -81,8 +108,14 @@ const WordBufferItem = ({word}) => {
             size="small"
           />
         </Box>
-
       </Stack>
+        <Snackbar
+          open={snackbarOpen}
+          autoHideDuration={2000}
+          onClose={handleSnackbarClose}
+          message={snackbarMessage}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        />
     </InputPaper>
   );
 };
