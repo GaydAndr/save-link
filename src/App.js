@@ -4,12 +4,13 @@ import WordListBuilder from "./components/SprintForm/WordListBuilder";
 import Grid from "@mui/material/Unstable_Grid2";
 import Title from "./components/Title/Title";
 import AddedSprints from "./components/AvailableSprints/WordListsDisplay";
-import {Container, Slide} from "@mui/material";
+import {Box, Container, Slide} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import { getAreWordListsVisible, uiAction} from "./redux/ui_slice";
 import {getAllWordLists} from "./redux/wordList_slice";
 import React, {useEffect} from "react";
 import { getIsWordListFormVisible} from "./redux/ui_slice"
+import ImportButton from "./components/ImportButton/ImportButton";
 
 function App() {
   const dispatch = useDispatch();
@@ -27,7 +28,11 @@ function App() {
     <>
       <Container>
         <Title/>
-        <AddWordList/>
+        <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', gap: 2, mt: 2, mb: 2 }}>
+          <AddWordList/>
+          <ImportButton/>
+        </Box>
+
       </Container>
       <Container>
         <Grid
