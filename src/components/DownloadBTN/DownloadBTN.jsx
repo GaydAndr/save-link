@@ -9,11 +9,11 @@ import Popper from '@mui/material/Popper';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import {createTheme, ThemeProvider, Tooltip} from "@mui/material";
-import JSONDownloadBTN from "./JSONDownloadBTN";
-import DocxDownloadBTN from "./DocxDownloadBTN";
+import JSONDownloadBTN from "../../utils/JSONDownloadBTN";
+import DocxDownloadBTN from "../../utils/DocxDownloadBTN";
 import {useSelector} from "react-redux";
 import {getAllWordLists} from "../../redux/wordList_slice";
-import TXTDownloadBTN from "./TXTDownloadBTN";
+import TXTDownloadBTN from "../../utils/TXTDownloadBTN";
 
 const options = [
   {
