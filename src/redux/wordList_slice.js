@@ -105,6 +105,15 @@ const wordListSlice = createSlice({
         }
       }
     },
+    importLists: (state, { payload }) => {
+      // Створюємо множину (Set) з ID існуючих списків для швидкого пошуку
+      const existingIds = new Set(state.wordLists.map(list => list.id));
+
+      // Фільтруємо імпортовані дані, залишаючи тільки ті, яких ще немає
+      const newLists = payload.filter(list => !existingIds.has(list.id));
+
+      state.wordLists = [...state.wordLists, ...newLists];
+    },
   }
 });
 
