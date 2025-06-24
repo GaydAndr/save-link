@@ -1,6 +1,6 @@
 import React from 'react';
 import ActionBtn from "../ActionBtn/ActionBtn";
-// import BorderColorIcon from "@mui/icons-material/BorderColor";
+import BorderColorIcon from "@mui/icons-material/BorderColor";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {useDispatch} from "react-redux";
 import {wordListAction} from "../../redux/wordList_slice";

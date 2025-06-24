@@ -13,7 +13,7 @@ import {useDispatch, useSelector} from "react-redux";
 import { wordListAction} from "../../redux/wordList_slice";
 import LinkHeader from "./LinkHeader";
 import TopBtnStack from "./TopBtnStack";
-import {uiAction} from "../../redux/ui_slice";
+import {getSearchQuery, uiAction} from "../../redux/ui_slice";
 import MyModal from "../Modal/MyModal";
 import {getModalType} from "../../redux/selectors/uiSelectors";
 import { selectFilteredWordLists } from "../../redux/selectors/wordSelectors";
@@ -38,6 +38,7 @@ const WordListsDisplay = () => {
   const dispatch = useDispatch();
   const modalType = useSelector(getModalType);
   const filteredWordLists = useSelector(selectFilteredWordLists);
+  const searchQuery = useSelector(getSearchQuery);
 
   const [expanded, setExpanded] = useState([]);
 
@@ -56,6 +57,15 @@ const WordListsDisplay = () => {
         : prev.filter(id => id !== panelId)
     );
   };
+
+  useEffect(() => {
+    if (searchQuery.trim() !== '') {
+      const allFilteredIds = filteredWordLists.map(list => list.id);
+      setExpanded(allFilteredIds);
+    } else {
+      setExpanded([]);
+    }
+  }, [searchQuery, filteredWordLists]);
 
   const handleExpandAll = () => {
     setExpanded(filteredWordLists.map(list => list.id));

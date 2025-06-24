@@ -17,7 +17,7 @@ const ListNameEditor = () => {
 
   const titleInputRef = useRef(null)
 
-  useEffect(() => { 
+  useEffect(() => {
     if (!isNameSaved ) {
       titleInputRef.current.focus();
     }
