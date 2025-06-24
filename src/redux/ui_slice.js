@@ -11,6 +11,8 @@ const uiSlice = createSlice({
     isCancelEditBtnVisible: false,
 
     activeEditingListId: null,
+
+    searchQuery:''
   },
   reducers: {
     showWordListForm: (state) => {
@@ -37,19 +39,6 @@ const uiSlice = createSlice({
     toggleListNameInput: (state) => {
       state.isListNameInputVisible = !state.isListNameInputVisible;
     },
-    // showCancelEditBtn: (state) => {
-    //   state.isCancelEditBtnVisible = true;
-    // },
-    // hideCancelEditBtn: (state) => {
-    //   state.isCancelEditBtnVisible = false;
-    // },
-    //
-    // startEditModeForList: (state, { payload }) => {
-    //   state.activeEditingListId = payload;
-    // },
-    // endEditMode: (state) => {
-    //   state.activeEditingListId = null;
-    // }
   }
 })
 

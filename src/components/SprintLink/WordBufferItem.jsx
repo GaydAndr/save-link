@@ -6,16 +6,8 @@ import {wordListAction} from "../../redux/wordList_slice";
 import InputPaper from "../SprintForm/InputPaper";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import GTranslateIcon from "@mui/icons-material/GTranslate";
-
-const createTranslateUrl = (text, targetLang) => {
-  const encodedText = encodeURIComponent(text);
-  return `https://translate.google.com/?sl=auto&tl=${targetLang}&text=${encodedText}&op=translate`;
-};
-
-const isMobile = () => {
-  const mobileRegex = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
-  return mobileRegex.test(navigator.userAgent);
-};
+import {useState} from "react";
+import {handleTranslateClick} from "../../utils/handleTranslateClick";
 
 const PRIMARY_LANGUAGE = 'en';
 const SECONDARY_LANGUAGE = 'uk';
@@ -24,7 +16,7 @@ const WordBufferItem = ({word}) => {
   const dispatch = useDispatch()
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarMessage] = useState('');
 
   const handleDelete  = () => {
     dispatch(wordListAction.removeWord(word.id))
@@ -32,27 +24,6 @@ const WordBufferItem = ({word}) => {
 
   const handleEdit  = () => {
     dispatch((wordListAction.setEditingWord(word.id)))
-  };
-
-  const handleTranslateClick = (text, targetLang) => {
-    if (isMobile()) {
-      const mobileUrl = `googletranslate://translate?sl=auto&tl=${targetLang}&text=${encodeURIComponent(text)}`;
-      const webUrl = createTranslateUrl(text, targetLang);
-
-      const fallbackTimeout = setTimeout(() => {
-        window.open(webUrl, '_blank', 'noopener,noreferrer');
-      }, 1200);
-
-      document.addEventListener('visibilitychange', () => {
-        if (document.visibilityState === 'hidden') {
-          clearTimeout(fallbackTimeout);
-        }
-      }, { once: true });
-
-      window.location.href = mobileUrl;
-    } else {
-      window.open(createTranslateUrl(text, targetLang), '_blank', 'noopener,noreferrer');
-    }
   };
 
   const handleSnackbarClose = () => {

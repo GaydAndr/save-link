@@ -19,7 +19,7 @@ function App() {
   const wordLists  = useSelector(getAllWordLists)
 
   useEffect(() => {
-    if (wordLists .length && !areListsVisible ){
+    if (wordLists.length && !areListsVisible ){
       dispatch(uiAction.showWordLists())
     }
   }, [wordLists, areListsVisible, dispatch]);
