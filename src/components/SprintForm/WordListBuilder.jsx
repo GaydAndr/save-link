@@ -5,14 +5,13 @@ import WordBufferItem from "../SprintLink/WordBufferItem";
 import {Box, Paper, Stack, Tooltip} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import {
-  getCurrentWords,
-  getCurrentListName,
-  getEditingListId,
   wordListAction
 } from "../../redux/wordList_slice";
-import {getModalType, uiAction} from "../../redux/ui_slice";
+import { uiAction} from "../../redux/ui_slice";
 import MyModal from "../Modal/MyModal";
 import CloseCategoryBuilder from "./CloseCategoryBuilder";
+import {getCurrentListName, getCurrentWords, getEditingListId} from "../../redux/selectors/wordSelectors";
+import {getModalType} from "../../redux/selectors/uiSelectors";
 
 const WordListBuilder = () => {
   const dispatch = useDispatch();

@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import {ListItem, Typography, IconButton, Box, Checkbox, Tooltip, Snackbar} from "@mui/material";
 import GTranslateIcon from '@mui/icons-material/GTranslate';
 import {useDispatch} from "react-redux";
@@ -8,7 +9,7 @@ import {handleTranslateClick} from "../../utils/handleTranslateClick";
 const PRIMARY_LANGUAGE = 'en';
 const SECONDARY_LANGUAGE = 'uk';
 
-const WordItem = ({ word, listId }) => {
+const WordItem = memo(({ word, listId }) => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage] = useState('');
 
@@ -88,6 +89,6 @@ const WordItem = ({ word, listId }) => {
       />
     </ListItem>
   );
-};
+});
 
 export default WordItem;

@@ -5,7 +5,8 @@ import {Box, Paper, Stack, Tooltip} from "@mui/material";
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import DownloadDoneIcon from '@mui/icons-material/DownloadDone';
 import {useDispatch, useSelector} from "react-redux";
-import {getIsListNameSaved, getCurrentListName, wordListAction} from "../../redux/wordList_slice";
+import {wordListAction} from "../../redux/wordList_slice";
+import {getCurrentListName, getIsListNameSaved} from "../../redux/selectors/wordSelectors";
 
 const ListNameEditor = () => {
   const dispatch = useDispatch();
@@ -16,7 +17,7 @@ const ListNameEditor = () => {
 
   const titleInputRef = useRef(null)
 
-  useEffect(() => {
+  useEffect(() => { 
     if (!isNameSaved ) {
       titleInputRef.current.focus();
     }

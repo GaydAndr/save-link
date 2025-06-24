@@ -12,8 +12,8 @@ import {createTheme, ThemeProvider, Tooltip} from "@mui/material";
 import JSONDownloadBTN from "../../utils/JSONDownloadBTN";
 import DocxDownloadBTN from "../../utils/DocxDownloadBTN";
 import {useSelector} from "react-redux";
-import {getAllWordLists} from "../../redux/wordList_slice";
 import TXTDownloadBTN from "../../utils/TXTDownloadBTN";
+import {getAllWordLists} from "../../redux/selectors/wordSelectors";
 
 const options = [
   {

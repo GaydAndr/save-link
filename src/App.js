@@ -6,11 +6,11 @@ import Title from "./components/Title/Title";
 import AddedSprints from "./components/AvailableSprints/WordListsDisplay";
 import {Box, Container, Slide} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
-import { getAreWordListsVisible, uiAction} from "./redux/ui_slice";
-import {getAllWordLists} from "./redux/wordList_slice";
+import { uiAction} from "./redux/ui_slice";
 import React, {useEffect} from "react";
-import { getIsWordListFormVisible} from "./redux/ui_slice"
 import ImportButton from "./components/ImportButton/ImportButton";
+import {getAllWordLists} from "./redux/selectors/wordSelectors";
+import {getAreWordListsVisible, getIsWordListFormVisible} from "./redux/selectors/uiSelectors";
 
 function App() {
   const dispatch = useDispatch();

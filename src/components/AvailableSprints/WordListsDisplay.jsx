@@ -3,19 +3,22 @@ import {
   Accordion, AccordionDetails, AccordionSummary, Box,
   createTheme,
   List,
-  ListItem,
+  ListItem, Stack,
   styled,
-  ThemeProvider
+  ThemeProvider,
+  Button
 } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {useDispatch, useSelector} from "react-redux";
-import {getAllWordLists, wordListAction} from "../../redux/wordList_slice";
-import WordItem from "./WordItem";
+import { wordListAction} from "../../redux/wordList_slice";
 import LinkHeader from "./LinkHeader";
 import TopBtnStack from "./TopBtnStack";
-import {getModalType, uiAction} from "../../redux/ui_slice";
-import ActionBtn from "../ActionBtn/ActionBtn";
+import {uiAction} from "../../redux/ui_slice";
 import MyModal from "../Modal/MyModal";
+import {getModalType} from "../../redux/selectors/uiSelectors";
+import { selectFilteredWordLists } from "../../redux/selectors/wordSelectors";
+import SearchField from "../common/SearchField";
+import WordListContent from "./WordListContent";
 
 const FireNav = styled(List)({
   "& .MuiListItemButton-root": {
@@ -33,25 +36,32 @@ const FireNav = styled(List)({
 
 const WordListsDisplay = () => {
   const dispatch = useDispatch();
-  const wordLists  = useSelector(getAllWordLists)
   const modalType = useSelector(getModalType);
-  const [expanded, setExpanded] = useState(false);
+  const filteredWordLists = useSelector(selectFilteredWordLists);
+
+  const [expanded, setExpanded] = useState([]);
 
   useEffect(() => {
-    if (wordLists.length) {
+    if (filteredWordLists.length) {
       dispatch(uiAction.showWordLists())
     } else {
       dispatch(uiAction.hideWordLists())
     }
-  },[wordLists , dispatch]);
+  },[filteredWordLists , dispatch]);
 
-  const handleChange = (panel) => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false);
+  const handleChange = (panelId) => (event, isExpanded) => {
+    setExpanded(prev =>
+      isExpanded
+        ? [...prev, panelId]
+        : prev.filter(id => id !== panelId)
+    );
   };
 
-  const handleStartEditing  = (listId) => {
-    dispatch(wordListAction.startEditingList(listId))
-    dispatch(uiAction.showWordListForm())
+  const handleExpandAll = () => {
+    setExpanded(filteredWordLists.map(list => list.id));
+  };
+  const handleCollapseAll = () => {
+    setExpanded([]);
   };
 
   const handleDeleteAll = () => {
@@ -81,6 +91,13 @@ const WordListsDisplay = () => {
       })}
     >
       <TopBtnStack/>
+        <Box sx={{ mb: 2, p: 1, bgcolor: 'background.paper', borderRadius: 1 }}>
+          <SearchField />
+          <Stack direction="row" spacing={1}>
+            <Button onClick={handleExpandAll} size="small">Розгорнути все</Button>
+            <Button onClick={handleCollapseAll} size="small">Згорнути все</Button>
+          </Stack>
+        </Box>
       <FireNav
         disablePadding
         sx={{
@@ -89,7 +106,7 @@ const WordListsDisplay = () => {
           '& ul': {padding: 0},
         }}
       >
-        {wordLists?.map((wordList, i) => (
+        {filteredWordLists?.map((wordList, i) => (
           <ListItem
             key={wordList.id}
             sx={{
@@ -101,8 +118,8 @@ const WordListsDisplay = () => {
               position: 'relative',
             }}>
               <Accordion
-                expanded={expanded === `panel${i}`}
-                onChange={handleChange(`panel${i}`)}
+                expanded={expanded.includes(wordList.id)}
+                onChange={handleChange(wordList.id)}
               >
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon/>}
@@ -112,42 +129,15 @@ const WordListsDisplay = () => {
                   <LinkHeader
                     title={wordList.listName}
                     id={wordList.id}
-                    amount={wordList.words.length}
+                    amount={`${wordList.words.length}`}
                   />
                 </AccordionSummary>
                 <AccordionDetails sx={{
                   padding: 0
                 }}>
-                  <List
-                    disablePadding
-                    sx={{
-                      bgcolor: 'rgba(231,116,255,0.32)'
-                    }}
-                  >
-                    <ListItem
-                      disablePadding
-                      key={"00"}
-                      sx={{
-                        py: 0,
-                        bgcolor: 'rgb(255,255,255)',
-                      }}
-                    >
-                      <ActionBtn
-                        variant={'contained'}
-                        color={'warning'}
-                        text={'Додати слово'}
-                        fullWidth
-                        funcs={() => handleStartEditing (wordList.id)}
-                      />
-                    </ListItem>
-                    {wordList.words.map((wordObject) => (
-                        <WordItem
-                          key={wordObject.id}
-                          word={wordObject}
-                          listId={wordList.id}
-                        />
-                    ))}
-                  </List>
+                  <WordListContent
+                    listId={wordList.id}
+                  />
                 </AccordionDetails>
 
               </Accordion>
@@ -157,7 +147,7 @@ const WordListsDisplay = () => {
       </FireNav>
       {modalType === 'confirmClearAll' && (
         <MyModal
-          typeAlert={'askAlert'} // Використовуємо той же AskAlert, але з іншим текстом
+          typeAlert={'askAlert'}
           text="Ви впевнені, що хочете видалити ВСІ списки? Цю дію неможливо буде скасувати."
           agreeFunc={handleDeleteAll}
           handleClose={handleCloseModal}

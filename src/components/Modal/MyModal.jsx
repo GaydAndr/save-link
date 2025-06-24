@@ -6,7 +6,7 @@ import React, {forwardRef} from "react";
 import AskAlert from "./AskAlert";
 import InfoAlert from "./InfoAlert";
 import {useSelector} from "react-redux";
-import { getModalType} from "../../redux/ui_slice";
+import {getModalType} from "../../redux/selectors/uiSelectors";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;

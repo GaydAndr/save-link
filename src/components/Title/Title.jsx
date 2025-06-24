@@ -11,7 +11,7 @@ const Title = () => {
           textAlign: 'center'
         }}
       >
-        React practical
+        Word saver
       </Typography>
     </>
   );

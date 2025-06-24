@@ -2,9 +2,10 @@ import InputField from "../InputField/InputField";
 import ActionBtn from "../ActionBtn/ActionBtn";
 import {Accordion, AccordionDetails, AccordionSummary, Box, Paper, Stack} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
-import {getIsWordListFormVisible, getIsListNameInputVisible, uiAction} from "../../redux/ui_slice";
+import { uiAction} from "../../redux/ui_slice";
 import {useEffect, useRef, useState} from "react";
 import {wordListAction} from "../../redux/wordList_slice";
+import {getIsListNameInputVisible, getIsWordListFormVisible} from "../../redux/selectors/uiSelectors";
 
 export const AddWordList = () => {
   const dispatch = useDispatch();

@@ -5,8 +5,9 @@ import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import {IconButton, Paper, Tooltip} from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import InputPaper from "./InputPaper";
-import {getEditingWord, wordListAction} from "../../redux/wordList_slice";
+import {wordListAction} from "../../redux/wordList_slice";
 import {useDispatch, useSelector} from "react-redux";
+import {getEditingWord} from "../../redux/selectors/wordSelectors";
 
 const LATIN_REGEX = /^[a-zA-Z\s'-]*$/;
 const CYRILLIC_REGEX = /^[а-яА-ЯёЁіІїЇєЄ\s'-]*$/;

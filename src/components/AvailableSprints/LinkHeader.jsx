@@ -2,7 +2,7 @@ import React from 'react';
 import { Paper, Stack, Typography} from "@mui/material";
 import RefactorBtn from "./RefactorBtn";
 
-const LinkHeader = ({title, id, amount}) => {
+const LinkHeader = ({title, id, amount }) => {
 
   return (
     <Stack
