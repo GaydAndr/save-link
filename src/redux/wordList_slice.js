@@ -118,12 +118,4 @@ const wordListSlice = createSlice({
 });
 
 export const wordListAction = wordListSlice.actions;
-
-export const getIsListNameSaved = (state) => state.wordLists.isListNameSaved;
-export const getCurrentListName = (state) => state.wordLists.currentListName;
-export const getCurrentWords = (state) => state.wordLists.currentWords;
-export const getAllWordLists = (state) => state.wordLists.wordLists;
-export const getEditingListId = (state) => state.wordLists.editingListId;
-export const getEditingWord = (state) => state.wordLists.editingWord;
-
 export default wordListSlice;

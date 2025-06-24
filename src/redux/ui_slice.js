@@ -11,8 +11,7 @@ const uiSlice = createSlice({
     isCancelEditBtnVisible: false,
 
     activeEditingListId: null,
-
-    searchQuery:''
+    searchQuery: '',
   },
   reducers: {
     showWordListForm: (state) => {
@@ -39,16 +38,12 @@ const uiSlice = createSlice({
     toggleListNameInput: (state) => {
       state.isListNameInputVisible = !state.isListNameInputVisible;
     },
+    setSearchQuery: (state, { payload }) => {
+      state.searchQuery = payload;
+    },
   }
 })
 
 export const uiAction = uiSlice.actions;
-
-export const getIsWordListFormVisible = (state) => state.ui.isWordListFormVisible;
-export const getAreWordListsVisible = (state) => state.ui.areWordListsVisible;
-export const getModalType = (state) => state.ui.modalType;
-export const getIsListNameInputVisible = (state) => state.ui.isListNameInputVisible;
-// export const getIsCancelEditBtnVisible = (state) => state.ui.isCancelEditBtnVisible;
-// export const getActiveEditingListId = (state) => state.ui.activeEditingListId;
-
+export const getSearchQuery = (state) => state.ui.searchQuery;
 export default uiSlice;

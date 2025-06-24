@@ -30,7 +30,6 @@ const store = configureStore({
   reducer: {
     ui: UiReducer,
     wordLists: WordListsReducer
-
   },
   devTools: process.env.NODE_ENV === 'development',
   middleware: getDefaultMiddleware =>
