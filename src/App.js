@@ -1,16 +1,17 @@
 import './App.css';
-import {AddWordList} from "./components/AddSprint/AddWordList";
+import {AddWordList} from "./components/AddWordList/AddWordList";
 import WordListBuilder from "./components/SprintForm/WordListBuilder";
 import Grid from "@mui/material/Unstable_Grid2";
 import Title from "./components/Title/Title";
 import AddedSprints from "./components/AvailableSprints/WordListsDisplay";
-import {Box, Container, Slide} from "@mui/material";
+import {Box, Container, CssBaseline, Slide, ThemeProvider} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import { uiAction} from "./redux/ui_slice";
 import React, {useEffect} from "react";
 import ImportButton from "./components/ImportButton/ImportButton";
 import {getAllWordLists} from "./redux/selectors/wordSelectors";
 import {getAreWordListsVisible, getIsWordListFormVisible} from "./redux/selectors/uiSelectors";
+import {theme} from "./theme";
 
 function App() {
   const dispatch = useDispatch();
@@ -25,7 +26,8 @@ function App() {
   }, [wordLists, areListsVisible, dispatch]);
 
   return (
-    <>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
       <Container>
         <Title/>
         <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', gap: 2, mt: 2, mb: 2 }}>
@@ -57,7 +59,7 @@ function App() {
           </Slide>
         </Grid>
       </Container>
-    </>
+    </ThemeProvider>
   );
 }
 
