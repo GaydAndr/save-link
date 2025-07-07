@@ -7,11 +7,11 @@ const InputPaper = ({children}) => {
       elevation={3}
       sx={{
         height: 1,
-        backgroundColor: '#c6e0fa',
+        // backgroundColor: '#c6e0fa',
         transition: 'all 0.2s ease-in-out',
         '&:focus-within': {
           boxShadow: '0px 15px 30px -7px rgba(0,0,0,0.75)',
-          backgroundColor: '#fff',
+          // backgroundColor: '#494747',
         },
         '&:hover': {
           transition: 'all 0.2s ease-in-out',

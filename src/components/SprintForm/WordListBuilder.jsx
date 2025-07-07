@@ -1,5 +1,5 @@
 import ListNameEditor from "./ListNameEditor";
-import AddWordPairForm from "./AddWordPairForm ";
+import AddWordPairForm from "./AddWordPairForm";
 import ActionBtn from "../ActionBtn/ActionBtn";
 import WordBufferItem from "../SprintLink/WordBufferItem";
 import {Box, Paper, Stack, Tooltip} from "@mui/material";
@@ -67,7 +67,7 @@ const WordListBuilder = () => {
       elevation={5}
       sx={{
         padding: 1,
-        backgroundColor: '#9C9C9C'
+        // backgroundColor: '#9C9C9C'
       }}
     >
       <Stack spacing={2}>

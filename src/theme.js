@@ -51,9 +51,10 @@ export const theme = createTheme({
     MuiPaper: {
       styleOverrides: {
         root: {
-          backgroundImage: 'none', // Вимикає градієнти на папері
-        }
+          backgroundImage: 'none',
+
+          }
+        },
       }
-    }
-  },
+    },
 });

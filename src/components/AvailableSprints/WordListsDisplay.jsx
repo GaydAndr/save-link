@@ -1,43 +1,23 @@
-import React, {memo, useEffect, useState} from 'react';
+import React, {memo, useCallback, useEffect, useState} from 'react';
+import {useDispatch, useSelector} from "react-redux";
 import {
-  Accordion, AccordionDetails, AccordionSummary, Box,
-  createTheme,
-  List,
-  ListItem, Stack,
-  styled,
-  ThemeProvider,
-  Button
+  Accordion, AccordionDetails, AccordionSummary, Box, ListItem
 } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import {useDispatch, useSelector} from "react-redux";
 import { wordListAction} from "../../redux/wordList_slice";
-import LinkHeader from "./LinkHeader";
-import TopBtnStack from "./TopBtnStack";
 import {getSearchQuery, uiAction} from "../../redux/ui_slice";
-import MyModal from "../Modal/MyModal";
 import {getModalType} from "../../redux/selectors/uiSelectors";
 import { selectFilteredWordLists } from "../../redux/selectors/wordSelectors";
-import SearchField from "../common/SearchField";
+import LinkHeader from "./LinkHeader";
+import TopBtnStack from "./TopBtnStack";
+import MyModal from "../Modal/MyModal";
 import WordListContent from "./WordListContent";
-
-const FireNav = styled(List)({
-  "& .MuiListItemButton-root": {
-    paddingLeft: 24,
-    paddingRight: 24,
-  },
-  "& .MuiListItemIcon-root": {
-    minWidth: 0,
-    marginRight: 16,
-  },
-  "& .MuiSvgIcon-root": {
-    fontSize: 20,
-  },
-});
+import SearchArea from "../SearchArea/SearchArea";
 
 const WordListsDisplay = () => {
   const dispatch = useDispatch();
   const modalType = useSelector(getModalType);
-  const filteredWordLists = useSelector(selectFilteredWordLists);
+  const filteredWordLists = useSelector(selectFilteredWordLists) ;
   const searchQuery = useSelector(getSearchQuery);
 
   const [expanded, setExpanded] = useState([]);
@@ -50,14 +30,6 @@ const WordListsDisplay = () => {
     }
   },[filteredWordLists , dispatch]);
 
-  const handleChange = (panelId) => (event, isExpanded) => {
-    setExpanded(prev =>
-      isExpanded
-        ? [...prev, panelId]
-        : prev.filter(id => id !== panelId)
-    );
-  };
-
   useEffect(() => {
     if (searchQuery.trim() !== '') {
       const allFilteredIds = filteredWordLists.map(list => list.id);
@@ -67,60 +39,35 @@ const WordListsDisplay = () => {
     }
   }, [searchQuery, filteredWordLists]);
 
-  const handleExpandAll = () => {
-    setExpanded(filteredWordLists.map(list => list.id));
-  };
-  const handleCollapseAll = () => {
-    setExpanded([]);
-  };
+  const handleChange = useCallback((panelId) => (event, isExpanded) => {
+    setExpanded(prev =>
+      isExpanded
+        ? [...prev, panelId]
+        : prev.filter(id => id !== panelId)
+    );
+  },[]);
 
-  const handleDeleteAll = () => {
+  const handleDeleteAll = useCallback(() => {
     dispatch(wordListAction.clearAllWordLists());
     dispatch(uiAction.hideWordLists());
     dispatch(uiAction.hideModal());
-  };
+  },[dispatch]);
 
   const handleCloseModal = () => {
     dispatch(uiAction.hideModal());
   };
 
   return (
-    <ThemeProvider
-      theme={createTheme({
-        components: {
-          MuiListItemButton: {
-            defaultProps: {
-              disableTouchRipple: true,
-            },
-          },
-        },
-        palette: {
-          mode: "dark",
-          background: {paper: "rgb(83,58,83)"},
-        },
-      })}
-    >
+    <>
       <TopBtnStack/>
-        <Box sx={{ mb: 2, p: 1, bgcolor: 'background.paper', borderRadius: 1 }}>
-          <SearchField />
-          <Stack direction="row" spacing={1}>
-            <Button onClick={handleExpandAll} size="small">Розгорнути все</Button>
-            <Button onClick={handleCollapseAll} size="small">Згорнути все</Button>
-          </Stack>
-        </Box>
-      <FireNav
-        disablePadding
-        sx={{
-          width: '100%',
-          overflow: 'auto',
-          '& ul': {padding: 0},
-        }}
-      >
-        {filteredWordLists?.map((wordList, i) => (
+      <SearchArea setExpanded={setExpanded} filteredWordLists={filteredWordLists}/>
+      <Box>
+        {filteredWordLists?.map((wordList) => (
           <ListItem
             key={wordList.id}
             sx={{
-              padding: 0
+              padding: 0,
+              marginBottom:1
             }}
           >
             <Box sx={{
@@ -154,7 +101,7 @@ const WordListsDisplay = () => {
             </Box>
           </ListItem>
         ))}
-      </FireNav>
+      </Box>
       {modalType === 'confirmClearAll' && (
         <MyModal
           typeAlert={'askAlert'}
@@ -163,8 +110,7 @@ const WordListsDisplay = () => {
           handleClose={handleCloseModal}
         />
       )}
-    </ThemeProvider>
-
+    </>
   );
 };
 

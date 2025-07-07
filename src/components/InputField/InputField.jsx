@@ -28,6 +28,7 @@ const InputField = ({
         height: 40,
         borderRadius: '5px',
         border: error ? '1px solid #d32f2f' : 'none',
+        transition: 'background-color 0.2s ease-in-out',
       }}
       justifyContent={'space-between'}
       alignItems={'center'}
