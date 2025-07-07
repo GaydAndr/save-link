@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo} from 'react';
 import { Paper, Stack, Typography} from "@mui/material";
 import RefactorBtn from "./RefactorBtn";
 
@@ -39,4 +39,4 @@ const LinkHeader = ({title, id, amount }) => {
   );
 };
 
-export default LinkHeader;
+export default memo(LinkHeader);

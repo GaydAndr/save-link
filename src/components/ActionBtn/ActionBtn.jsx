@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo, useCallback} from 'react';
 import {Button, IconButton} from "@mui/material";
 
 const ActionBtn = ({
@@ -11,10 +11,10 @@ const ActionBtn = ({
                      disabled,
                      type = 'button'
                    }) => {
-  const handleButtonClick = (e) => {
+  const handleButtonClick =useCallback( (e) => {
     e.stopPropagation()
     funcs()
-  };
+  },[funcs]);
   return (
     <>
       {!icoBtn && <Button
@@ -40,4 +40,4 @@ const ActionBtn = ({
   );
 };
 
-export default ActionBtn;
+export default memo( ActionBtn);

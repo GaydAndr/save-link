@@ -6,7 +6,7 @@ import {wordListAction} from "../../redux/wordList_slice";
 import InputPaper from "../SprintForm/InputPaper";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import GTranslateIcon from "@mui/icons-material/GTranslate";
-import {useState} from "react";
+import {memo, useState} from "react";
 import {handleTranslateClick} from "../../utils/handleTranslateClick";
 
 const PRIMARY_LANGUAGE = 'en';
@@ -91,4 +91,4 @@ const WordBufferItem = ({word}) => {
   );
 };
 
-export default WordBufferItem;
+export default memo(WordBufferItem);

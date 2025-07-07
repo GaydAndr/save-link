@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import {memo, useCallback} from 'react';
 import {ListItem, Typography, IconButton, Box, Checkbox, Tooltip, Snackbar} from "@mui/material";
 import GTranslateIcon from '@mui/icons-material/GTranslate';
 import {useDispatch} from "react-redux";
@@ -9,7 +9,7 @@ import {handleTranslateClick} from "../../utils/handleTranslateClick";
 const PRIMARY_LANGUAGE = 'en';
 const SECONDARY_LANGUAGE = 'uk';
 
-const WordItem = memo(({ word, listId }) => {
+const WordItem = ({ word, listId }) => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage] = useState('');
 
@@ -24,12 +24,12 @@ const WordItem = memo(({ word, listId }) => {
     setSnackbarOpen(false);
   };
 
-  const handleToggleLearned = () => {
+  const handleToggleLearned =useCallback( () => {
     dispatch(wordListAction.toggleWordLearnedStatus({
       listId: listId,
       wordId: word.id
     }));
-  };
+  },[dispatch, listId, word]);
 
   // Стилі для "вивченого" слова
   const learnedStyles = {
@@ -89,6 +89,6 @@ const WordItem = memo(({ word, listId }) => {
       />
     </ListItem>
   );
-});
+};
 
-export default WordItem;
+export default memo(WordItem);
