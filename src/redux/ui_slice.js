@@ -5,7 +5,7 @@ const uiSlice = createSlice({
   initialState: {
     isWordListFormVisible: false,
     areWordListsVisible: false,
-    modalType: null,
+    modal: null,
 
     isListNameInputVisible: false,
     isCancelEditBtnVisible: false,
@@ -29,10 +29,10 @@ const uiSlice = createSlice({
     },
 
     showModal: (state, { payload }) => {
-      state.modalType = payload.type;
+      state.modal = payload.type;
     },
     hideModal: (state) => {
-      state.modalType  = null;
+      state.modal  = null;
     },
 
     toggleListNameInput: (state) => {

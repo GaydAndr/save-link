@@ -15,7 +15,7 @@ export const getAreWordListsVisible = createSelector(
 
 export const getModalType = createSelector(
   [selectUiState],
-  state => state.modalType
+  state => state.modal
 );
 
 export const getIsListNameInputVisible = createSelector(
