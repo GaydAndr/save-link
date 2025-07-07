@@ -123,7 +123,7 @@ const AddWordPairForm = () => {
     <Paper
       sx={{
         padding: ' 10px',
-        backgroundColor: '#D9D9D9'
+        // backgroundColor: '#D9D9D9'
       }}
     >
       <Grid container spacing={2}  alignItems="flex-start">
@@ -139,6 +139,7 @@ const AddWordPairForm = () => {
               error={!!errors.input1}
               helperText={errors.input1}
               clear
+              color={"#000000"}
             />
           </InputPaper>
         </Grid>

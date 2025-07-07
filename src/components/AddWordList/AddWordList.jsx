@@ -22,12 +22,15 @@ export const AddWordList = () => {
       listNameInputRef.current.focus();
     }
   }, [isInputVisible ]);
+
   const handleToggleInput  = () => {
     dispatch(uiAction.toggleListNameInput())
   }
+
   const handleListNameChange  = (e) => {
     setListName(e.target.value)
   }
+
   const openWordListBuilder  = () => {
     if (!listName.trim()) {
       return;
@@ -36,7 +39,6 @@ export const AddWordList = () => {
     dispatch(uiAction.showWordListForm())
     dispatch(uiAction.toggleListNameInput())
     setListName('')
-    // listNameInputRef.current.focus();
   }
 
   const handleKeyDown = (e) => {
